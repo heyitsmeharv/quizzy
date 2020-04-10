@@ -1,0 +1,32 @@
+.container {
+    font-family: 'Luckiest Guy';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: lightskyblue;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    overflow: hidden;
+    .textFieldWrapper {
+      animation-name: playerNameInput;
+      animation-duration: 2s;
+      align-items:  center;
+      .text {
+        color: black;
+        display: flex;
+        padding-bottom: 10px;
+      }
+    }
+    .goButton {
+      animation-name: playerNameInput;
+      animation-duration: 2s;
+      margin-top: 26px;
+    }
+}
+
+@keyframes playerNameInput {
+  from { transform: translateX(-2000px)}
+  to { transform: translateY(0)}
+}

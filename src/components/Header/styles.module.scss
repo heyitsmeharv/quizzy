@@ -1,0 +1,18 @@
+.headerText {
+  font-family: 'Luckiest Guy';
+  font-size: 150px;
+  color: white;
+  animation-name: Header;
+  animation-duration: 2s
+}
+
+@media screen and (max-width: 480px) {
+  .headerText {
+    font-size: 120px;
+  }
+}
+
+@keyframes Header {
+  from { transform: translateY(-2000px)}
+  to { transform: translateY(0)}
+}
