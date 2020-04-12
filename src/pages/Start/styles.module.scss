@@ -1,0 +1,47 @@
+.container {
+  font-family: 'Luckiest Guy';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: lightskyblue;
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  // animation: pageExit 0.5s forwards;;
+
+  .textFieldWrapper {
+    animation-name: playerNameInput;
+    animation-duration: 2s;
+    align-items:  center;
+    .text {
+      color: black;
+      display: flex;
+      padding-bottom: 10px;
+    }
+  }
+  .button {
+    animation-name: playerNameInput;
+    animation-duration: 2s;
+    margin-top: 26px;
+  }
+}
+
+.page-exit {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes playerNameInput {
+from { transform: translateX(-2000px)}
+to { transform: translateY(0)}
+}

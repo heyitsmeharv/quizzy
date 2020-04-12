@@ -1,14 +1,14 @@
 import React from 'react';
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-// components
-import Button from '@material-ui/core/Button';
-import Header from './components/Header/Header.js';
-import TextField from '@material-ui/core/TextField';
+// pages
+import StartPage from './pages/Start/Start';
+import QuestionsPage from './pages/Questions/Questions';
 
 // styles
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
-import style from './styles.module.scss';
 
 const theme = createMuiTheme({
   typography: {
@@ -26,22 +26,29 @@ const theme = createMuiTheme({
 
 const App = () => {
   return (
-    <MuiThemeProvider theme={theme}>
-      <div className={style.container}>
-        <Header text="QUIZZY" />
-        <div className={style.textFieldWrapper}>
-          <p className={style.text}>Please Enter Your Player Name:</p>
-          <TextField
-            id="standard-uncontrolled"
-            label="Player Name"
-            variant="outlined"
-          />
-        </div>
-        <Button className={style.goButton} variant="contained" color="primary">
-          Go!
-        </Button>
-      </div>
-    </MuiThemeProvider>
+    <HashRouter>
+      <MuiThemeProvider theme={theme}>
+        <Route
+          render={({ location }) => {
+            return (
+              <TransitionGroup component={null}>
+                <CSSTransition
+                  timeout={300}
+                  classNames="page"
+                  key={location.key}
+                >
+                  <Switch location={location}>
+                    <Route exact path="/" render={() => <Redirect to="/quizzy" />} />
+                    <Route exact path="/quizzy" component={StartPage} />
+                    <Route exact path="/questions" component={QuestionsPage} />
+                  </Switch>
+                </CSSTransition>
+              </TransitionGroup>
+            );
+          }}
+        />
+      </MuiThemeProvider>
+    </HashRouter>
   );
 }
 
