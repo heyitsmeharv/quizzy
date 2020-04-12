@@ -1,14 +1,56 @@
 .container {
   font-family: 'Luckiest Guy';
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   background-color: lightskyblue;
   width: 100vw;
   height: 100vh;
   margin: 0 auto;
   overflow: hidden;
+
+  .score {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 6vh;
+    padding: 2vh 10vh;
+  }
+
+  .questions {
+    width: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+  
+    .questionTitle {
+      font-size: 5vh;
+      padding-bottom: 25px;
+    }
+
+    .choiceContainer {
+      font-size: 4vh;
+      display: flex;
+      margin: 10px 0;
+
+      .choicePrefix {
+        margin-right: 30px;
+      }
+      .choiceText {
+        display: flex;
+        background: white;
+        border: 2px solid black;
+        width: 100%;
+        justify-content: center;
+
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 1rem 2rem rgba(0,0,0,.2);
+          color: lightskyblue;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 
   .page-enter {
     from {
