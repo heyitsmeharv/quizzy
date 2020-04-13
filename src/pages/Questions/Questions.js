@@ -9,8 +9,9 @@ class QuestionsPage extends React.Component {
     super(props);
     this.state = {
       questions: [],
+      availableQuestions: [],
       currentQuestion: {},
-      questionIndex: 0,
+      questionIndex: null,
       questionCounter: 0,
       acceptingAnswers: true,
       isLoading: true,
@@ -57,40 +58,43 @@ class QuestionsPage extends React.Component {
   }
 
   start = () => {
-    const { questions } = this.state;
+    const { questions, availableQuestions } = this.state;
     this.setState({
       score: 0,
       questionCounter: 0,
+      availableQuestions: questions,
     });
-    this.getNextQuestion(questions);
+    this.getNextQuestion(availableQuestions);
   }
 
-  getNextQuestion = (questions) => {
+  getNextQuestion = (availableQuestions) => {
     let { questionCounter } = this.state;
     this.setState({
       questionCounter: questionCounter + 1,
     });
 
     // find a random question
-    let questionIndex = Math.floor(Math.random() * questions.length);
+    let questionIndex = Math.floor(Math.random() * availableQuestions.length);
     this.setState({
-      currentQuestion: questions[questionIndex],
+      currentQuestion: availableQuestions[questionIndex],
       questionIndex,
     });
   }
 
   checkAnswer = (answer) => {
-    const { questions, currentQuestion, questionIndex, questionCounter } = this.state;
+    const { questions, currentQuestion, availableQuestions, questionIndex, questionCounter } = this.state;
+    
+    // remove the current question
+    const newQuestions = [...availableQuestions];
+    newQuestions.splice(questionIndex, 1);
 
+    this.setState({
+      availableQuestions: newQuestions,
+    });
     // have we run out of questions?
     if (questionCounter >= questions.length) {
       this.props.history.push('/leaderboards');
     } else {
-
-      // remove the current question
-      const newQuestions = [...questions];
-      newQuestions.splice(questionIndex, 1);
-
       // check to see if correct answer was selected
       // TODO check the question counter
       // TODO when finished, go to the leaderboards screen
@@ -102,13 +106,13 @@ class QuestionsPage extends React.Component {
         this.setState({
           isCorrect: true,
         });
-        this.getNextQuestion(newQuestions);
+        this.getNextQuestion(availableQuestions);
       } else {
         // apply false css
         this.setState({
           isCorrect: false,
         });
-        this.getNextQuestion(newQuestions);
+        this.getNextQuestion(availableQuestions);
       }
     }
   }
