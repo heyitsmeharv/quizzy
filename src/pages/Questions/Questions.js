@@ -133,10 +133,15 @@ class QuestionsPage extends React.Component {
   }
 
   render() {
-    const { currentQuestion, score } = this.state;
+    const { currentQuestion, score, questions, questionCounter } = this.state;
+    let questionTotal = questions.length;
+
     return (
       <div className={style.container}>
-        <div className={style.score}>Score: {score}</div>
+        <div className={style.topWrapper}>
+          <div className={style.progressBar}>Question {questionCounter} / {questionTotal}</div>
+          <div className={style.score}>Score: {score}</div>
+        </div>
         <div className={style.questions}>
           {this.renderQuestion(currentQuestion)}
         </div>

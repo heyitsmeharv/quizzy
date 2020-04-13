@@ -6,12 +6,25 @@
   margin: 0 auto;
   overflow: hidden;
 
-  .score {
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 6vh;
-    padding: 2vh 10vh;
+  .topWrapper {
+    display: flex;
+    align-items: center;
+
+    .progressBar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 4vh;
+      padding: 2vh 10vh;
+    }
+
+    .score {
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 4vh;
+      padding: 2vh 10vh;
+    }
   }
 
   .questions {
@@ -21,6 +34,7 @@
     flex-direction: column;
     justify-content: center;
     margin: 0 auto;
+    text-align: center;
   
     .questionTitle {
       font-size: 5vh;
@@ -34,6 +48,19 @@
 
       .choicePrefix {
         margin-right: 30px;
+        background: white;
+        border: 3px solid black;
+        border-radius: 50%;
+        width: 50px;
+        text-align: center;
+
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 1rem 2rem rgba(0,0,0,.2);
+          color: lightskyblue;
+          cursor: pointer;
+        }
+
       }
       .choiceText {
         display: flex;
