@@ -44,6 +44,7 @@
     .choiceContainer {
       font-size: 4vh;
       display: flex;
+      align-items: center;
       margin: 10px 0;
 
       .choicePrefix {
@@ -69,6 +70,7 @@
         width: 100%;
         justify-content: center;
         text-align: center;
+        padding: 1px;
 
         &:hover {
           transform: translateY(-3px);

@@ -1,0 +1,81 @@
+.leaderboardpage {
+  font-family: 'Luckiest Guy';
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  background-color: lightskyblue;
+  width: 100vw;
+  max-width: 1920px;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+    .addquestionwrapper {
+      animation-name: addQuestion;
+      animation-duration: 2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: auto;
+      .addQuestionButton {
+        margin: 24px;
+        display: flex;
+      }
+      .addquestiontext {
+        display: flex;
+        margin-left: -16px;
+      }
+    }
+    .newgamewrapper {
+      animation-name: addQuestion;
+      animation-duration: 2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: auto;
+      :hover {
+        cursor: pointer;
+      }
+      .newgametext {
+        display: flex;
+        margin-right: 50px;
+        border: black solid 2px;
+        background: white;
+        padding: 1vh;
+      }
+    }
+
+  
+  .question {
+    font-size: 24px;
+  }
+  .leaderboardtable {
+    animation-name: leaderboard;
+    animation-duration: 2s;
+    height: 85%;
+    width: 75%;
+    overflow: auto;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .leaderboardtable {
+    animation-name: leaderboard;
+    animation-duration: 2s;
+   overflow: auto;
+   overflow-x: auto;
+  }
+}
+
+@keyframes leaderboard {
+  from { transform: translateX(+2000px)}
+  to { transform: translateY(0)}
+}
+
+@keyframes addQuestion {
+  from { transform: translateX(-2000px)}
+  to { transform: translateY(0)}
+}

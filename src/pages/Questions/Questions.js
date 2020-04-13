@@ -60,13 +60,16 @@ class QuestionsPage extends React.Component {
     const { questions } = this.state;
     this.setState({
       score: 0,
+      questionCounter: 0,
     });
     this.getNextQuestion(questions);
   }
 
   getNextQuestion = (questions) => {
     let { questionCounter } = this.state;
-    questionCounter++;
+    this.setState({
+      questionCounter: questionCounter + 1,
+    });
 
     // find a random question
     let questionIndex = Math.floor(Math.random() * questions.length);
@@ -77,32 +80,37 @@ class QuestionsPage extends React.Component {
   }
 
   checkAnswer = (answer) => {
-    const { currentQuestion, questionIndex } = this.state;
+    const { questions, currentQuestion, questionIndex, questionCounter } = this.state;
 
-    // remove the current question
-    const newQuestions = [...this.state.questions];
-    newQuestions.splice(questionIndex, 1);
-
-    // check to see if correct answer was selected
-    // TODO check the question counter
-    // TODO when finsihed, go to the leaderboards screen
-    if (answer === currentQuestion.answer) {
-      this.setState({
-        score: this.state.score + 1,
-      });
-      // apply fancy css
-      this.setState({
-        isCorrect: true,
-      });
-      this.getNextQuestion(newQuestions);
+    // have we run out of questions?
+    if (questionCounter >= questions.length) {
+      this.props.history.push('/leaderboards');
     } else {
-      // apply false css
-      this.setState({
-        isCorrect: false,
-      });
-      this.getNextQuestion(newQuestions);
-    }
 
+      // remove the current question
+      const newQuestions = [...questions];
+      newQuestions.splice(questionIndex, 1);
+
+      // check to see if correct answer was selected
+      // TODO check the question counter
+      // TODO when finished, go to the leaderboards screen
+      if (answer === currentQuestion.answer) {
+        this.setState({
+          score: this.state.score + 1,
+        });
+        // apply fancy css
+        this.setState({
+          isCorrect: true,
+        });
+        this.getNextQuestion(newQuestions);
+      } else {
+        // apply false css
+        this.setState({
+          isCorrect: false,
+        });
+        this.getNextQuestion(newQuestions);
+      }
+    }
   }
 
   renderQuestion = (currentQuestion) => {

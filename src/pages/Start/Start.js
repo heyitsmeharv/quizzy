@@ -14,8 +14,12 @@ class StartPage extends React.Component {
     this.state = {}
   }
 
-  handleButtonClick = () => {
-    this.props.history.push('/questions');
+  handleButtonClick = (type) => {
+    if (type === 'Go') {
+      this.props.history.push('/questions');
+    } else {
+      this.props.history.push('/leaderboards');
+    }
   };
 
   render() {
@@ -26,9 +30,14 @@ class StartPage extends React.Component {
           <p className={style.text}>Please Enter Your Player Name:</p>
           <TextField id="standard-uncontrolled" label="Player Name" variant="outlined" />
         </div>
-        <Button className={style.button} onClick={() => this.handleButtonClick()} variant="contained" color="primary">
-          Go!
-      </Button>
+        <div className={style.buttonWrapper}>
+          <Button className={style.button} onClick={() => this.handleButtonClick('Go')} variant="contained" color="primary">
+            Go!
+          </Button>
+          <Button className={style.button} onClick={() => this.handleButtonClick('HighScore')} variant="contained" color="primary">
+            High Scores!
+        </Button>
+        </div>
       </div>
     );
   }

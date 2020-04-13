@@ -5,6 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 // pages
 import StartPage from './pages/Start/Start';
 import QuestionsPage from './pages/Questions/Questions';
+import LeaderboardsPage from './pages/Leaderboards/Leaderboards';
 
 // styles
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -41,6 +42,7 @@ const App = () => {
                     <Route exact path="/" render={() => <Redirect to="/quizzy" />} />
                     <Route exact path="/quizzy" component={StartPage} />
                     <Route exact path="/questions" component={QuestionsPage} />
+                    <Route exact path="/leaderboards" component={LeaderboardsPage} />
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
