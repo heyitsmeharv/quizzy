@@ -9,75 +9,137 @@ class QuestionsPage extends React.Component {
     super(props);
     this.state = {
       questions: [],
+      currentQuestion: {},
+      questionIndex: 0,
+      questionCounter: 0,
+      acceptingAnswers: true,
       isLoading: true,
+      isCorrect: false,
       score: 0,
     }
   }
 
   componentDidMount() {
     // TODO allow the user to customise the quiz but for now, hardcode.
-    fetch("https://opentdb.com/api.php?amount=50&category=9&difficulty=easy&type=multiple")
-    .then(response => {
-      return response.json();
-    })
-    .then(loadedQuestions => {
-      loadedQuestions.results.map((loadedQuestion) => {
-        // format the response
-        const formattedQuestion = {
-          question: loadedQuestion.question
-        };
+    fetch("https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple")
+      .then(response => {
+        return response.json();
+      })
+      .then(loadedQuestions => {
+        loadedQuestions.results.map((loadedQuestion) => {
+          // format the response
+          const formattedQuestion = {
+            question: loadedQuestion.question
+          };
 
-        const answerChoices = [...loadedQuestion.incorrect_answers];
-        formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
-        
-        answerChoices.splice(formattedQuestion.answer - 1, 0, loadedQuestion.correct_answer);
-        
-        answerChoices.forEach((choice, index) => {
-          formattedQuestion["choice" + (index + 1)] = choice;
+          // assign incorrect and correct answers
+          const answerChoices = [...loadedQuestion.incorrect_answers];
+          formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
+
+          answerChoices.splice(formattedQuestion.answer - 1, 0, loadedQuestion.correct_answer);
+
+          // add choice label for each choice
+          answerChoices.forEach((choice, index) => {
+            formattedQuestion["choice" + (index + 1)] = choice;
+          });
+
+          // put the questions into an array
+          let listOfQuestions = [];
+          listOfQuestions.push(...this.state.questions, formattedQuestion);
+
+          this.setState({
+            questions: listOfQuestions,
+          });
+
+          this.start();
         });
-        
-        this.setState({
-          questions: formattedQuestion
-        })
-        return formattedQuestion;
       });
-    });
+  }
+
+  start = () => {
+    const { questions } = this.state;
     this.setState({
-      isLoading: false,
+      score: 0,
+    });
+    this.getNextQuestion(questions);
+  }
+
+  getNextQuestion = (questions) => {
+    let { questionCounter } = this.state;
+    questionCounter++;
+
+    // find a random question
+    let questionIndex = Math.floor(Math.random() * questions.length);
+    this.setState({
+      currentQuestion: questions[questionIndex],
+      questionIndex,
     });
   }
 
-  render() {
-    const { questions, isLoading, score } = this.state;
-    console.log('questions', questions);
+  checkAnswer = (answer) => {
+    const { currentQuestion, questionIndex } = this.state;
 
+    // remove the current question
+    const newQuestions = [...this.state.questions];
+    newQuestions.splice(questionIndex, 1);
+
+    // check to see if correct answer was selected
+    // TODO check the question counter
+    // TODO when finsihed, go to the leaderboards screen
+    if (answer === currentQuestion.answer) {
+      this.setState({
+        score: this.state.score + 1,
+      });
+      // apply fancy css
+      this.setState({
+        isCorrect: true,
+      });
+      this.getNextQuestion(newQuestions);
+    } else {
+      // apply false css
+      this.setState({
+        isCorrect: false,
+      });
+      this.getNextQuestion(newQuestions);
+    }
+
+  }
+
+  renderQuestion = (currentQuestion) => {
+    if (currentQuestion === undefined) {
+      // TODO Add a better loading screen or spinner?
+      return <div className={style.tempLoading}>Getting The Question</div>
+    } else {
+      return (<>
+        <h2 className={style.questionTitle}>{currentQuestion.question}</h2>
+        <div className={style.choiceContainer} onClick={() => this.checkAnswer(1)}>
+          <p className={style.choicePrefix}>A</p>
+          <label className={style.choiceText}>{currentQuestion.choice1}</label>
+        </div>
+        <div className={style.choiceContainer} onClick={() => this.checkAnswer(2)}>
+          <p className={style.choicePrefix}>B</p>
+          <label className={style.choiceText}>{currentQuestion.choice2}</label>
+        </div>
+        <div className={style.choiceContainer} onClick={() => this.checkAnswer(3)}>
+          <p className={style.choicePrefix}>C</p>
+          <label className={style.choiceText}>{currentQuestion.choice3}</label>
+        </div>
+        <div className={style.choiceContainer} onClick={() => this.checkAnswer(4)}>
+          <p className={style.choicePrefix}>D</p>
+          <label className={style.choiceText}>{currentQuestion.choice4}</label>
+        </div>
+      </>)
+    }
+  }
+
+  render() {
+    const { currentQuestion, score } = this.state;
     return (
       <div className={style.container}>
-        {isLoading ?
-          <div>Loading</div> :  
-          <>
-          <div className={style.score}>Score: {score}</div>
-          <div className={style.questions}>
-            <h2 className={style.questionTitle}>{questions.question}</h2>
-            <div className={style.choiceContainer}>
-              <p className={style.choicePrefix}>A</p>
-              <label className={style.choiceText}>Choice A</label>
-            </div>
-            <div className={style.choiceContainer}>
-              <p className={style.choicePrefix}>B</p>
-              <label className={style.choiceText}>Choice B</label>
-            </div>
-            <div className={style.choiceContainer}>
-              <p className={style.choicePrefix}>C</p>
-              <label className={style.choiceText}>Choice C</label>
-            </div>
-            <div className={style.choiceContainer}>
-              <p className={style.choicePrefix}>D</p>
-              <label className={style.choiceText}>Choice D</label>
-            </div>
-          </div>
-          </>
-        } 
+        <div className={style.score}>Score: {score}</div>
+        <div className={style.questions}>
+          {this.renderQuestion(currentQuestion)}
+        </div>
       </div>
     );
   }

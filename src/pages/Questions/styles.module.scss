@@ -41,6 +41,7 @@
         border: 2px solid black;
         width: 100%;
         justify-content: center;
+        text-align: center;
 
         &:hover {
           transform: translateY(-3px);
@@ -49,6 +50,13 @@
           cursor: pointer;
         }
       }
+    }
+
+    .tempLoading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
     }
   }
 
