@@ -81,16 +81,19 @@ class QuestionsPage extends React.Component {
     });
   }
 
-  checkAnswer = (answer) => {
-    const { questions, currentQuestion, availableQuestions, questionIndex, questionCounter } = this.state;
-    
-    // remove the current question
+  removeQuestion = () => {
+    const { availableQuestions, questionIndex } = this.state;
     const newQuestions = [...availableQuestions];
     newQuestions.splice(questionIndex, 1);
+    this.setState({ availableQuestions: newQuestions });
+  }
 
-    this.setState({
-      availableQuestions: newQuestions,
-    });
+  checkAnswer = (answer) => {
+    const { questions, currentQuestion, questionCounter } = this.state;
+
+    // remove the current question
+    this.removeQuestion();
+
     // have we run out of questions?
     if (questionCounter >= questions.length) {
       this.props.history.push('/leaderboards');
@@ -106,13 +109,13 @@ class QuestionsPage extends React.Component {
         this.setState({
           isCorrect: true,
         });
-        this.getNextQuestion(availableQuestions);
+        this.getNextQuestion(this.state.availableQuestions);
       } else {
         // apply false css
         this.setState({
           isCorrect: false,
         });
-        this.getNextQuestion(availableQuestions);
+        this.getNextQuestion(this.state.availableQuestions);
       }
     }
   }
