@@ -1,12 +1,21 @@
 import React from 'react';
+import Reflux from 'reflux';
+
+import QuestionStore from '../../store/store';
+import QuestionActions from '../../store/actions';
 
 // styles
 import style from './styles.module.scss';
 
 
-class QuestionsPage extends React.Component {
+class QuestionsPage extends Reflux.Component {
   constructor(props) {
     super(props);
+    this.stores = [QuestionStore];
+    this.storeKeys = [
+      'username',
+      'question',
+    ];
     this.state = {
       questions: [],
       availableQuestions: [],
@@ -20,41 +29,9 @@ class QuestionsPage extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // TODO allow the user to customise the quiz but for now, hardcode.
-    fetch("https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple")
-      .then(response => {
-        return response.json();
-      })
-      .then(loadedQuestions => {
-        loadedQuestions.results.map((loadedQuestion) => {
-          // format the response
-          const formattedQuestion = {
-            question: loadedQuestion.question
-          };
-
-          // assign incorrect and correct answers
-          const answerChoices = [...loadedQuestion.incorrect_answers];
-          formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
-
-          answerChoices.splice(formattedQuestion.answer - 1, 0, loadedQuestion.correct_answer);
-
-          // add choice label for each choice
-          answerChoices.forEach((choice, index) => {
-            formattedQuestion["choice" + (index + 1)] = choice;
-          });
-
-          // put the questions into an array
-          let listOfQuestions = [];
-          listOfQuestions.push(...this.state.questions, formattedQuestion);
-
-          this.setState({
-            questions: listOfQuestions,
-          });
-
-          this.start();
-        });
-      });
+  componentDidMount = () => {
+    QuestionActions.getQuestionData();
+    this.start();
   }
 
   start = () => {

@@ -1,4 +1,8 @@
 import React from 'react';
+import Reflux from 'reflux';
+
+import QuestionStore from '../../store/store';
+import QuestionActions from '../../store/actions';
 
 // components
 import Button from '@material-ui/core/Button';
@@ -8,10 +12,16 @@ import TextField from '@material-ui/core/TextField';
 // styles
 import style from './styles.module.scss';
 
-class StartPage extends React.Component {
+class StartPage extends Reflux.Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.stores = [QuestionStore];
+    this.storeKeys = [
+      'username',
+    ];
+    this.state = {
+      username: '',
+    }
   }
 
   handleButtonClick = (type) => {
@@ -20,6 +30,13 @@ class StartPage extends React.Component {
     } else {
       this.props.history.push('/leaderboards');
     }
+    QuestionActions.saveUsername(this.state.username);
+  };
+
+  handleOnChangeUsername = username => event  => {
+    this.setState({
+      [username]: event.target.value,
+    });
   };
 
   render() {
@@ -28,7 +45,7 @@ class StartPage extends React.Component {
         <Header text="QUIZZY" />
         <div className={style.textFieldWrapper}>
           <p className={style.text}>Please Enter Your Player Name:</p>
-          <TextField id="standard-uncontrolled" label="Player Name" variant="outlined" />
+          <TextField id="standard-uncontrolled" onChange={this.handleOnChangeUsername('username')} label="Player Name" variant="outlined" />
         </div>
         <div className={style.buttonWrapper}>
           <Button className={style.button} onClick={() => this.handleButtonClick('Go')} variant="contained" color="primary">
