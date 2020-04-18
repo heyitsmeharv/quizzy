@@ -17,10 +17,12 @@ class StartPage extends Reflux.Component {
     super(props);
     this.stores = [QuestionStore];
     this.storeKeys = [
-      'username',
+      'profile',
     ];
     this.state = {
-      username: '',
+      profile: {
+        username: '',
+      }
     }
   }
 
@@ -30,7 +32,7 @@ class StartPage extends Reflux.Component {
     } else {
       this.props.history.push('/leaderboards');
     }
-    QuestionActions.saveUsername(this.state.username);
+    QuestionActions.saveUsername(this.state.profile.username);
   };
 
   handleOnChangeUsername = username => event  => {

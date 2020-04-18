@@ -14,10 +14,11 @@ class QuestionsPage extends Reflux.Component {
     this.stores = [QuestionStore];
     this.storeKeys = [
       'username',
-      'question',
+      'score',
     ];
     this.state = {
       questions: [],
+      questionTotal: 0,
       availableQuestions: [],
       currentQuestion: {},
       questionIndex: null,
@@ -25,21 +26,57 @@ class QuestionsPage extends Reflux.Component {
       acceptingAnswers: true,
       isLoading: true,
       isCorrect: false,
-      score: 0,
     }
   }
 
-  componentDidMount = () => {
-    QuestionActions.getQuestionData();
-    this.start();
+  componentDidMount() {
+    // TODO allow the user to customise the quiz but for now, hardcode.
+    const URL = "https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple";
+    fetch(URL)
+      .then(response => {
+        return response.json();
+      })
+      .then(loadedQuestions => {
+        loadedQuestions.results.map((loadedQuestion) => {
+          // format the response
+          const formattedQuestion = {
+            question: loadedQuestion.question
+          };
+
+          // assign incorrect and correct answers
+          const answerChoices = [...loadedQuestion.incorrect_answers];
+          formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
+
+          answerChoices.splice(formattedQuestion.answer - 1, 0, loadedQuestion.correct_answer);
+
+          // add choice label for each choice
+          answerChoices.forEach((choice, index) => {
+            formattedQuestion["choice" + (index + 1)] = choice;
+          });
+
+          // put the questions into an array
+          let listOfQuestions = [];
+          listOfQuestions.push(...this.state.questions, formattedQuestion);
+
+          this.setState({
+            availableQuestions: listOfQuestions,
+            questions: listOfQuestions,
+            questionTotal: listOfQuestions.length,
+          }, () => {
+            console.log(this.state);
+          });
+        });
+        // this.getNextQuestion(this.state.questions);
+        this.start(this.state.availableQuestions);
+      }).catch((error) => {
+        console.error('failed to get questions', error);
+      });
   }
 
-  start = () => {
-    const { questions, availableQuestions } = this.state;
+  start = (availableQuestions) => {
     this.setState({
       score: 0,
       questionCounter: 0,
-      availableQuestions: questions,
     });
     this.getNextQuestion(availableQuestions);
   }
@@ -51,10 +88,12 @@ class QuestionsPage extends Reflux.Component {
     });
 
     // find a random question
-    let questionIndex = Math.floor(Math.random() * availableQuestions.length);
     this.setState({
-      currentQuestion: availableQuestions[questionIndex],
-      questionIndex,
+      questionIndex: Math.floor(Math.random() * availableQuestions.length),
+    }, () => {
+      this.setState({
+        currentQuestion: availableQuestions[this.state.questionIndex],
+      });
     });
   }
 
@@ -63,75 +102,62 @@ class QuestionsPage extends Reflux.Component {
     const newQuestions = [...availableQuestions];
     newQuestions.splice(questionIndex, 1);
     this.setState({ availableQuestions: newQuestions });
+    return newQuestions;
   }
 
   checkAnswer = (answer) => {
-    const { questions, currentQuestion, questionCounter } = this.state;
-
-    // remove the current question
-    this.removeQuestion();
-
+    const { questions, currentQuestion, questionCounter, score } = this.state;
     // have we run out of questions?
     if (questionCounter >= questions.length) {
+      QuestionActions.saveScore(score);
       this.props.history.push('/leaderboards');
     } else {
+      // remove the current question
+      let newQuestions = this.removeQuestion();
       // check to see if correct answer was selected
       // TODO check the question counter
       // TODO when finished, go to the leaderboards screen
       if (answer === currentQuestion.answer) {
-        this.setState({
-          score: this.state.score + 1,
-        });
-        // apply fancy css
-        this.setState({
-          isCorrect: true,
-        });
-        this.getNextQuestion(this.state.availableQuestions);
+        this.setState({ score: this.state.score + 1 });
+        this.getNextQuestion(newQuestions);
       } else {
-        // apply false css
-        this.setState({
-          isCorrect: false,
-        });
-        this.getNextQuestion(this.state.availableQuestions);
+        this.getNextQuestion(newQuestions);
       }
     }
   }
 
   renderQuestion = (currentQuestion) => {
-    if (currentQuestion === undefined) {
-      // TODO Add a better loading screen or spinner?
-      return <div className={style.tempLoading}>Getting The Question</div>
-    } else {
+    if (currentQuestion) {
       return (<>
-        <h2 className={style.questionTitle}>{currentQuestion.question}</h2>
+        <h2 className={style.questionTitle}>{currentQuestion ? currentQuestion.question : ''}</h2>
         <div className={style.choiceContainer} onClick={() => this.checkAnswer(1)}>
           <p className={style.choicePrefix}>A</p>
-          <label className={style.choiceText}>{currentQuestion.choice1}</label>
+          <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice1 : ''}</label>
         </div>
         <div className={style.choiceContainer} onClick={() => this.checkAnswer(2)}>
           <p className={style.choicePrefix}>B</p>
-          <label className={style.choiceText}>{currentQuestion.choice2}</label>
+          <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice2 : ''}</label>
         </div>
         <div className={style.choiceContainer} onClick={() => this.checkAnswer(3)}>
           <p className={style.choicePrefix}>C</p>
-          <label className={style.choiceText}>{currentQuestion.choice3}</label>
+          <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice3 : ''}</label>
         </div>
         <div className={style.choiceContainer} onClick={() => this.checkAnswer(4)}>
           <p className={style.choicePrefix}>D</p>
-          <label className={style.choiceText}>{currentQuestion.choice4}</label>
+          <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice4 : ''}</label>
         </div>
       </>)
+    } else {
+      return <div className={style.tempLoading}>Getting The Question...</div>
     }
   }
 
   render() {
-    const { currentQuestion, score, questions, questionCounter } = this.state;
-    let questionTotal = questions.length;
-
+    const { currentQuestion, score, questionCounter } = this.state;
     return (
-      <div className={style.container}>
+      <div className={style.container} >
         <div className={style.topWrapper}>
-          <div className={style.progressBar}>Question {questionCounter} / {questionTotal}</div>
+          <div className={style.progressBar}>Question {questionCounter} / {this.state.questionTotal}</div>
           <div className={style.score}>Score: {score}</div>
         </div>
         <div className={style.questions}>

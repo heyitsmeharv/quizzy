@@ -3,7 +3,8 @@ import Reflux from 'reflux';
 const QuestionActions = Reflux.createActions([
   'saveUsername',
   'getUsername',
-  'getQuestionData',
+  'saveScore',
+  'getScore',
 ]);
 
 export default QuestionActions;

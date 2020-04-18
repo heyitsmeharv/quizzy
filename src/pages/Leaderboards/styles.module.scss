@@ -1,4 +1,4 @@
-.leaderboardpage {
+.container {
   font-family: 'Luckiest Guy';
   display: flex;
   flex: 1;
@@ -13,46 +13,23 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-    .addquestionwrapper {
+    .newGameWrapper {
       animation-name: addQuestion;
       animation-duration: 2s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       margin-right: auto;
-      .addQuestionButton {
-        margin: 24px;
-        display: flex;
-      }
-      .addquestiontext {
-        display: flex;
-        margin-left: -16px;
-      }
-    }
-    .newgamewrapper {
-      animation-name: addQuestion;
-      animation-duration: 2s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-left: auto;
       :hover {
         cursor: pointer;
       }
-      .newgametext {
+      .newGameText {
         display: flex;
-        margin-right: 50px;
+        margin-left: 50px;
         border: black solid 2px;
         background: white;
         padding: 1vh;
       }
     }
 
-  
-  .question {
-    font-size: 24px;
-  }
-  .leaderboardtable {
+  .leaderboardTable {
     animation-name: leaderboard;
     animation-duration: 2s;
     height: 85%;
@@ -62,7 +39,7 @@
 }
 
 @media screen and (max-width: 480px) {
-  .leaderboardtable {
+  .leaderboardTable {
     animation-name: leaderboard;
     animation-duration: 2s;
    overflow: auto;

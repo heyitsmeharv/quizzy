@@ -1,4 +1,9 @@
 import React from 'react';
+import Reflux from 'reflux';
+
+import QuestionStore from '../../store/store';
+import QuestionActions from '../../store/actions';
+
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import ArrowIcon from '@material-ui/icons/ArrowLeftRounded'
@@ -10,37 +15,28 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import style from './styles.module.scss';
 
-class LeaderBoardPage extends React.Component {
+class LeaderBoardPage extends Reflux.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.stores = [QuestionStore];
+    this.storeKeys = [
+      'profile',
+    ];
+    this.state = {};
   }
 
-  componentDidMount() {
-
-  }
-
-  // -------------------------------------------------------------------------------
   render() {
     const {
-      question, // to check if got here through the journey
-      leaderboard,
+      profile
     } = this.state;
 
     return (
-      <div className={style.leaderboardpage}>
-        <div className={style.addquestionwrapper}>
-          <Fab color="primary" onClick={() => this.handleOnSubmitQuestion()} aria-label="Add" className={style.addQuestionButton}>
-            <AddIcon />
-          </Fab>
-          <div className={style.addquestiontext}><ArrowIcon />Submit a quesion! (TODO)</div>
+      <div className={style.container}>
+        <div className={style.newGameWrapper}>
+          <div className={style.newGameText} onClick={() => { this.props.history.push('/questions') }}>New Game</div>
         </div>
-        <div className={style.newgamewrapper}>
-          <div className={style.newgametext} onClick={() => {this.props.history.push('/questions')}}>New Game</div>
-        </div>
-        <div className={style.leaderboardtable}>
-          {/* {leaderboard && leaderboard.length > 0 && */}
+        <div className={style.leaderboardTable}>
+          {/* {profile && */}
           <Paper>
             <Table>
               <TableHead className={style.tableHead}>
@@ -53,21 +49,20 @@ class LeaderBoardPage extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* {leaderboard.map(attempt => {
+                {/* {profile.score.map(attempt => {
                     return (
                       <TableRow className={style.tableRow} key={attempt.id}>
-                        <TableCell >{attempt.UserName}</TableCell>
-                        <TableCell numeric>{attempt.Score}</TableCell>
+                        <TableCell >{profile.username}</TableCell>
+                        <TableCell numeric>{attempt.score}</TableCell>
                         <TableCell numeric>{attempt.AverageSeconds}</TableCell>
                         <TableCell numeric>{attempt.Total}</TableCell>
-                        <TableCell numeric>{attempt.Correct}</TableCell>
+                        <TableCell numeric>{attempt.Correct}</TableCell> 
                       </TableRow>
                     );
                   })} */}
               </TableBody>
             </Table>
           </Paper>
-          {/* } */}
         </div>
       </div>
     );
