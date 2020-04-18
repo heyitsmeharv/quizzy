@@ -25,7 +25,8 @@ class QuestionsPage extends Reflux.Component {
       questionCounter: 0,
       acceptingAnswers: true,
       isLoading: true,
-      isCorrect: false,
+      falseAnimation: false,
+      correctAnimation: false,
     }
   }
 
@@ -97,6 +98,21 @@ class QuestionsPage extends Reflux.Component {
     });
   }
 
+  animation = (colour) => {
+    if (colour === 'green') {
+      this.setState({ correctAnimation: true });
+    } else {
+      this.setState({ falseAnimation: true });
+    }
+    
+    setTimeout(() => {
+      this.setState({ 
+        falseAnimation: false,
+        correctAnimation: false, 
+      });
+    }, 500); 
+  }
+
   removeQuestion = () => {
     const { availableQuestions, questionIndex } = this.state;
     const newQuestions = [...availableQuestions];
@@ -119,8 +135,10 @@ class QuestionsPage extends Reflux.Component {
       // TODO when finished, go to the leaderboards screen
       if (answer === currentQuestion.answer) {
         this.setState({ score: this.state.score + 1 });
+        this.animation('green');
         this.getNextQuestion(newQuestions);
       } else {
+        this.animation('red');
         this.getNextQuestion(newQuestions);
       }
     }
@@ -153,9 +171,10 @@ class QuestionsPage extends Reflux.Component {
   }
 
   render() {
-    const { currentQuestion, score, questionCounter } = this.state;
+    const { currentQuestion, score, questionCounter, correctAnimation, falseAnimation } = this.state;
+    console.log(correctAnimation, falseAnimation);
     return (
-      <div className={style.container} >
+      <div className={correctAnimation === true ? style.containerCorrect : falseAnimation === true ? style.containerFalse : style.container} >
         <div className={style.topWrapper}>
           <div className={style.progressBar}>Question {questionCounter} / {this.state.questionTotal}</div>
           <div className={style.score}>Score: {score}</div>
