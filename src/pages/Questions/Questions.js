@@ -41,7 +41,7 @@ class QuestionsPage extends Reflux.Component {
         loadedQuestions.results.map((loadedQuestion) => {
           // format the response
           const formattedQuestion = {
-            question: loadedQuestion.question
+            question: loadedQuestion.question.toString().replace(/&quot;/g,'"').replace(/&#039;/g,`'`).replace(/&amp;/g,'&')
           };
 
           // assign incorrect and correct answers
@@ -172,7 +172,6 @@ class QuestionsPage extends Reflux.Component {
 
   render() {
     const { currentQuestion, score, questionCounter, correctAnimation, falseAnimation } = this.state;
-    console.log(correctAnimation, falseAnimation);
     return (
       <div className={correctAnimation === true ? style.containerCorrect : falseAnimation === true ? style.containerFalse : style.container} >
         <div className={style.topWrapper}>
