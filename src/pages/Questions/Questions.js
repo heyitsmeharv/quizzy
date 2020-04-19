@@ -41,7 +41,7 @@ class QuestionsPage extends Reflux.Component {
         loadedQuestions.results.map((loadedQuestion) => {
           // format the response
           const formattedQuestion = {
-            question: loadedQuestion.question.toString().replace(/&quot;/g,'"').replace(/&#039;/g,`'`).replace(/&amp;/g,'&')
+            question: loadedQuestion.question.toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&')
           };
 
           // assign incorrect and correct answers
@@ -107,13 +107,13 @@ class QuestionsPage extends Reflux.Component {
     } else {
       this.setState({ falseAnimation: true });
     }
-    
+
     setTimeout(() => {
-      this.setState({ 
+      this.setState({
         falseAnimation: false,
-        correctAnimation: false, 
+        correctAnimation: false,
       });
-    }, 500); 
+    }, 500);
   }
 
   removeQuestion = () => {
@@ -150,7 +150,6 @@ class QuestionsPage extends Reflux.Component {
   renderQuestion = (currentQuestion) => {
     if (currentQuestion) {
       return (<>
-        <h2 className={style.questionTitle}>{currentQuestion ? currentQuestion.question : ''}</h2>
         <div className={style.choiceContainer} onClick={() => this.checkAnswer(1)}>
           <p className={style.choicePrefix}>A</p>
           <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice1 : ''}</label>
@@ -182,6 +181,7 @@ class QuestionsPage extends Reflux.Component {
           <div className={style.score}>Score: {score}</div>
         </div>
         <div className={style.questions}>
+          <h2 className={style.questionTitle}>{currentQuestion ? currentQuestion.question : ''}</h2>
           {this.renderQuestion(currentQuestion)}
         </div>
       </div>
