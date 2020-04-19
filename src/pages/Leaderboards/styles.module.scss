@@ -1,58 +1,63 @@
 .container {
   font-family: 'Luckiest Guy';
   display: flex;
-  flex: 1;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
   justify-content: center;
   background-color: lightskyblue;
   width: 100vw;
-  max-width: 1920px;
   height: 100vh;
   margin: 0 auto;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-    .newGameWrapper {
-      animation-name: addQuestion;
+
+    .scoreTitle {
+      font-size: 10vh;
+    }
+
+    .score {
+      animation-name: right;
       animation-duration: 2s;
-      margin-right: auto;
+      border: 20px solid white;
+      border-radius: 50%;
+      width: 25vh;
+      height: 25vh;
+      margin: 0 auto;
+      overflow: hidden;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      .scoreText {
+        font-size: 12vh;
+        text-align: center;
+      }
+    }
+
+    .newGameWrapper {
+      animation-name: left;
+      animation-duration: 2s;
+      margin: 20px;
+      justify-content: center;
+      display: flex;
       :hover {
         cursor: pointer;
       }
       .newGameText {
         display: flex;
-        margin-left: 50px;
         border: black solid 2px;
         background: white;
         padding: 1vh;
+        font-size: 4vh;
       }
-    }
-
-  .leaderboardTable {
-    animation-name: leaderboard;
-    animation-duration: 2s;
-    height: 85%;
-    width: 75%;
-    overflow: auto;
-  }
+    }  
 }
 
-@media screen and (max-width: 480px) {
-  .leaderboardTable {
-    animation-name: leaderboard;
-    animation-duration: 2s;
-   overflow: auto;
-   overflow-x: auto;
-  }
-}
-
-@keyframes leaderboard {
+@keyframes right {
   from { transform: translateX(+2000px)}
   to { transform: translateY(0)}
 }
 
-@keyframes addQuestion {
+@keyframes left {
   from { transform: translateX(-2000px)}
   to { transform: translateY(0)}
 }

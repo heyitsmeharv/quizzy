@@ -15,10 +15,10 @@ class QuestionsPage extends Reflux.Component {
     this.storeKeys = [
       'username',
       'score',
+      'questionTotal',
     ];
     this.state = {
       questions: [],
-      questionTotal: 0,
       availableQuestions: [],
       currentQuestion: {},
       questionIndex: null,
@@ -66,6 +66,9 @@ class QuestionsPage extends Reflux.Component {
           }, () => {
             console.log(this.state);
           });
+
+          QuestionActions.saveQuestionTotal(this.state.questionTotal);
+
         });
         // this.getNextQuestion(this.state.questions);
         this.start(this.state.availableQuestions);

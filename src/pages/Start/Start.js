@@ -17,13 +17,9 @@ class StartPage extends Reflux.Component {
     super(props);
     this.stores = [QuestionStore];
     this.storeKeys = [
-      'profile',
+      'username',
     ];
-    this.state = {
-      profile: {
-        username: '',
-      }
-    }
+    this.state = {}
   }
 
   handleButtonClick = (type) => {
@@ -32,7 +28,7 @@ class StartPage extends Reflux.Component {
     } else {
       this.props.history.push('/leaderboards');
     }
-    QuestionActions.saveUsername(this.state.profile.username);
+    QuestionActions.saveUsername(this.state.username);
   };
 
   handleOnChangeUsername = username => event  => {
@@ -53,9 +49,9 @@ class StartPage extends Reflux.Component {
           <Button className={style.button} onClick={() => this.handleButtonClick('Go')} variant="contained" color="primary">
             Go!
           </Button>
-          <Button className={style.button} onClick={() => this.handleButtonClick('HighScore')} variant="contained" color="primary">
+          {/* <Button className={style.button} onClick={() => this.handleButtonClick('HighScore')} variant="contained" color="primary">
             High Scores!
-        </Button>
+        </Button> */}
         </div>
       </div>
     );

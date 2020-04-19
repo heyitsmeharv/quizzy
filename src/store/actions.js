@@ -5,6 +5,8 @@ const QuestionActions = Reflux.createActions([
   'getUsername',
   'saveScore',
   'getScore',
+  'saveQuestionTotal',
+  'getQuestionTotal'
 ]);
 
 export default QuestionActions;
