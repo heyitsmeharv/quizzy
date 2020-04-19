@@ -32,7 +32,7 @@ class QuestionsPage extends Reflux.Component {
 
   componentDidMount() {
     // TODO allow the user to customise the quiz but for now, hardcode.
-    const URL = "https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple";
+    const URL = "https://opentdb.com/api.php?amount=25&category=9&difficulty=medium&type=multiple";
     fetch(URL)
       .then(response => {
         return response.json();
