@@ -11,6 +11,14 @@
   overflow: hidden;
   // animation: pageExit 0.5s forwards;;
 
+  .headerText {
+    font-family: 'Luckiest Guy';
+    font-size: 150px;
+    color: white;
+    animation-name: Header;
+    animation-duration: 2s
+  }
+
   .textFieldWrapper {
     animation-name: playerNameInput;
     animation-duration: 2s;
@@ -34,17 +42,17 @@
   }
 }
 
-.page-exit {
-  from {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+@media screen and (max-width: 480px) {
+  .container {
+    .headerText {
+      font-size: 90px;
+    }
   }
+}
 
-  to {
-    visibility: hidden;
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
-  }
+@keyframes Header {
+  from { transform: translateY(-2000px)}
+  to { transform: translateY(0)}
 }
 
 @keyframes playerNameInput {

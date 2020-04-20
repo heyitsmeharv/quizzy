@@ -6,7 +6,6 @@ import QuestionActions from '../../store/actions';
 
 // components
 import Button from '@material-ui/core/Button';
-import Header from '../../components/Header/Header.js';
 import TextField from '@material-ui/core/TextField';
 
 // styles
@@ -31,7 +30,7 @@ class StartPage extends Reflux.Component {
     QuestionActions.saveUsername(this.state.username);
   };
 
-  handleOnChangeUsername = username => event  => {
+  handleOnChangeUsername = username => event => {
     this.setState({
       [username]: event.target.value,
     });
@@ -40,7 +39,11 @@ class StartPage extends Reflux.Component {
   render() {
     return (
       <div className={style.container}>
-        <Header text="QUIZZY" />
+        <div className={style.header}>
+          <div className={style.headerText}>
+            QUIZZY
+          </div>
+        </div>
         <div className={style.textFieldWrapper}>
           <p className={style.text}>Please Enter Your Player Name:</p>
           <TextField id="standard-uncontrolled" onChange={this.handleOnChangeUsername('username')} label="Player Name" variant="outlined" />
