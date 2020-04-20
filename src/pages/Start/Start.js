@@ -8,6 +8,9 @@ import QuestionActions from '../../store/actions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+// icons
+import SettingsIcon from '@material-ui/icons/Settings';
+
 // styles
 import style from './styles.module.scss';
 
@@ -39,6 +42,9 @@ class StartPage extends Reflux.Component {
   render() {
     return (
       <div className={style.container}>
+        <div className={style.settings}>
+          <SettingsIcon />
+        </div>
         <div className={style.header}>
           <div className={style.headerText}>
             QUIZZY

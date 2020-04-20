@@ -11,6 +11,13 @@
   overflow: hidden;
   // animation: pageExit 0.5s forwards;;
 
+  .settings {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+  }
+
   .headerText {
     font-family: 'Luckiest Guy';
     font-size: 150px;
