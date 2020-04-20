@@ -41,14 +41,20 @@ class QuestionsPage extends Reflux.Component {
         loadedQuestions.results.map((loadedQuestion) => {
           // format the response
           const formattedQuestion = {
-            question: loadedQuestion.question.toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&')
+            question: loadedQuestion.question.toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&'),
+            correct_answer: loadedQuestion.correct_answer.toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&'),
+            incorrect_answer1: loadedQuestion.incorrect_answers[0].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
+            incorrect_answer2: loadedQuestion.incorrect_answers[1].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
+            incorrect_answer3: loadedQuestion.incorrect_answers[2].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
           };
 
+          const newIncorrectAnswers = [formattedQuestion.incorrect_answer1, formattedQuestion.incorrect_answer2, formattedQuestion.incorrect_answer3];
+
           // assign incorrect and correct answers
-          const answerChoices = [...loadedQuestion.incorrect_answers];
+          const answerChoices = [...newIncorrectAnswers];
           formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
 
-          answerChoices.splice(formattedQuestion.answer - 1, 0, loadedQuestion.correct_answer);
+          answerChoices.splice(formattedQuestion.answer - 1, 0, formattedQuestion.correct_answer);
 
           // add choice label for each choice
           answerChoices.forEach((choice, index) => {
@@ -64,7 +70,7 @@ class QuestionsPage extends Reflux.Component {
             questions: listOfQuestions,
             questionTotal: listOfQuestions.length,
           }, () => {
-            console.log(this.state);
+            // console.log(this.state);
           });
 
           QuestionActions.saveQuestionTotal(this.state.questionTotal);
