@@ -1,0 +1,50 @@
+.container {
+  font-family: 'Luckiest Guy';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: lightskyblue;
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  // animation: pageExit 0.5s forwards;;
+
+  .dropdown {
+    animation-name: settings;
+    animation-duration: 2s;
+    width: 20%;
+    margin: 25px;
+    .text {
+      color: black;
+      display: flex;
+      padding-top: 10px;
+      font-size: 14px;
+    }
+  }
+
+  .buttonWrapper {
+    display: flex;
+    align-items: center;
+
+    .button {
+      animation-name: settings;
+      animation-duration: 2s;
+      margin: 26px 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    .headerText {
+      font-size: 90px;
+    }
+  }
+}
+
+@keyframes settings {
+from { transform: translateX(-2000px)}
+to { transform: translateY(0)}
+}

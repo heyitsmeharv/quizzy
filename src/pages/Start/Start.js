@@ -27,8 +27,10 @@ class StartPage extends Reflux.Component {
   handleButtonClick = (type) => {
     if (type === 'Go') {
       this.props.history.push('/questions');
-    } else {
+    } else if (type === 'leaderboards') {
       this.props.history.push('/leaderboards');
+    } else {
+      this.props.history.push('/settings');
     }
     QuestionActions.saveUsername(this.state.username);
   };
@@ -42,7 +44,7 @@ class StartPage extends Reflux.Component {
   render() {
     return (
       <div className={style.container}>
-        <div className={style.settings}>
+        <div className={style.settings} onClick={() => this.handleOnChangeUsername('settings')}>
           <SettingsIcon />
         </div>
         <div className={style.header}>
@@ -58,7 +60,7 @@ class StartPage extends Reflux.Component {
           <Button className={style.button} onClick={() => this.handleButtonClick('Go')} variant="contained" color="primary">
             Go!
           </Button>
-          {/* <Button className={style.button} onClick={() => this.handleButtonClick('HighScore')} variant="contained" color="primary">
+          {/* <Button className={style.button} onClick={() => this.handleButtonClick('leaderboards')} variant="contained" color="primary">
             High Scores!
         </Button> */}
         </div>
