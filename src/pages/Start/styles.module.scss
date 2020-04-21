@@ -16,6 +16,10 @@
     top: 0;
     right: 0;
     padding: 10px;
+    color: white;
+    &:hover {
+      animation: cog 5s infinite;
+    }
   }
 
   .headerText {
@@ -65,4 +69,10 @@
 @keyframes playerNameInput {
 from { transform: translateX(-2000px)}
 to { transform: translateY(0)}
+}
+
+@keyframes cog {
+  100%{ 
+    transform: rotate(360deg)
+  }
 }

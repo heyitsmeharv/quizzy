@@ -44,7 +44,7 @@ class StartPage extends Reflux.Component {
   render() {
     return (
       <div className={style.container}>
-        <div className={style.settings} onClick={() => this.handleOnChangeUsername('settings')}>
+        <div className={style.settings} onClick={() => this.handleButtonClick('settings')}>
           <SettingsIcon />
         </div>
         <div className={style.header}>
