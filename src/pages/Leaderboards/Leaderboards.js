@@ -12,7 +12,7 @@ class LeaderBoardPage extends Reflux.Component {
     this.storeKeys = [
       'username',
       'score',
-      'questionTotal'
+      'questionLimit'
     ];
     this.state = {};
   }
@@ -24,7 +24,7 @@ class LeaderBoardPage extends Reflux.Component {
           <did className={style.scoreTitle}>Your Score</did>
           <div className={style.score}>
             <div className={style.scoreText}>
-              {this.state.score}/{this.state.questionTotal}
+              {this.state.score}/{this.state.questionLimit}
             </div>
           </div>
           <div className={style.newGameWrapper}>

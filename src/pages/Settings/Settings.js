@@ -10,9 +10,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-
-// icons
 
 // styles
 import style from './styles.module.scss';
@@ -24,14 +21,10 @@ class SettingsPage extends Reflux.Component {
     this.storeKeys = [
       'category',
       'difficulty',
+      'categorySelected',
       'numberOfQuestions',
     ];
-    this.state = {
-      category: [],
-      categorySelected: '',
-      numberOfQuestions: '',
-      difficulty: 'Medium',
-    }
+    this.state = {}
   }
 
   componentDidMount() {
@@ -47,55 +40,8 @@ class SettingsPage extends Reflux.Component {
     this.props.history.push('/quizzy');
   };
 
-  handleCategoryChange = (event) => {
-    this.setState({
-      categorySelected: event.target.value
-    }, () => {
-      fetch(`https://opentdb.com/api_count.php?category=${this.state.categorySelected}`)
-        .then(response => {
-          console.log(response);
-          return response.json();
-        }).then(number => {
-          this.setState({ numberOfQuestions: number });
-        })
-    });
-  };
-
-  handleDifficultyChange = (event) => {
-    this.setState({
-      difficulty: event.target.value
-    }, () => {
-      // if (this.state.categorySelected !== '') {
-      //   fetch(`https://opentdb.com/api_count.php?category=${this.state.categorySelected}`)
-      //     .then(response => {
-      //       console.log(response);
-      //       return response.json();
-      //     }).then(number => {
-      //       this.setState({ numberOfQuestions: number });
-      //     })
-      // }
-    });
-  };
-
-  handleNumberChange = (event) => {
-    this.setState({
-      numberOfQuestions: event.target.value
-    });
-  };
-
-  handleOnQuestionCount = numberOfQuestions => event => {
-    this.setState({
-      [numberOfQuestions]: event.target.value,
-    });
-  };
-
   render() {
-    const { category, categorySelected, numberOfQuestions, difficulty } = this.state;
-    console.log('numberOfQuestions', numberOfQuestions);
-
-    // let questionLimit = numberOfQuestions ? (difficulty === 'easy') ? (numberOfQuestions.category_question_count.total_easy_question_count)
-    //   : ((difficulty === 'medium') ? (numberOfQuestions.category_question_count.total_medium_question_count)
-    //     : (numberOfQuestions.category_question_count.total_hard_question_count)) : '';
+    const { category, categorySelected, difficulty } = this.state;
 
     return (
       <div className={style.container}>
@@ -103,7 +49,7 @@ class SettingsPage extends Reflux.Component {
           <InputLabel>Category</InputLabel>
           <Select
             value={categorySelected}
-            onChange={this.handleCategoryChange}
+            onChange={QuestionActions.handleCategoryChange}
             label="Category"
           >
             <MenuItem value="">
@@ -120,23 +66,17 @@ class SettingsPage extends Reflux.Component {
           <InputLabel>Difficulty</InputLabel>
           <Select
             value={difficulty}
-            onChange={this.handleDifficultyChange}
+            onChange={QuestionActions.handleDifficultyChange}
             label="Difficulty"
           >
-            <MenuItem value={'Easy'}>Easy</MenuItem>
-            <MenuItem value={'Medium'}>Medium</MenuItem>
-            <MenuItem value={'Hard'}>Hard</MenuItem>
+            <MenuItem value={'easy'}>Easy</MenuItem>
+            <MenuItem value={'medium'}>Medium</MenuItem>
+            <MenuItem value={'hard'}>Hard</MenuItem>
           </Select>
         </FormControl>
-        <div className={style.dropdown}>
-          <TextField id="standard-uncontrolled" onChange={() => this.handleOnQuestionCount('numberOfQuestions')} label="Number Of Questions" variant="outlined" />
-          <p className={style.text}>Number of easy questions: {numberOfQuestions ? numberOfQuestions.category_question_count.total_easy_question_count : ''}</p>
-          <p className={style.text}>Number of medium questions: {numberOfQuestions ? numberOfQuestions.category_question_count.total_medium_question_count : ''}</p>
-          <p className={style.text}>Number of hard questions: {numberOfQuestions ? numberOfQuestions.category_question_count.total_hard_question_count : ''}</p>
-        </div>
         <div className={style.buttonWrapper}>
           <Button className={style.button} onClick={() => this.handleButtonClick()} variant="contained" color="primary">
-            Back
+            Save
           </Button>
         </div>
       </div>

@@ -16,6 +16,9 @@ class QuestionsPage extends Reflux.Component {
       'username',
       'score',
       'questionTotal',
+      'categorySelected',
+      'numberOfQuestions',
+      'difficulty',
     ];
     this.state = {
       questions: [],
@@ -27,59 +30,90 @@ class QuestionsPage extends Reflux.Component {
       isLoading: true,
       falseAnimation: false,
       correctAnimation: false,
+      questionLimit: 0,
     }
   }
 
   componentDidMount() {
-    // TODO allow the user to customise the quiz but for now, hardcode.
-    const URL = "https://opentdb.com/api.php?amount=25&category=9&difficulty=medium&type=multiple";
-    fetch(URL)
+    fetch(`https://opentdb.com/api_count.php?category=${this.state.categorySelected}`)
       .then(response => {
+        console.log(response);
         return response.json();
-      })
-      .then(loadedQuestions => {
-        loadedQuestions.results.map((loadedQuestion) => {
-          // format the response
-          const formattedQuestion = {
-            question: loadedQuestion.question.toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&'),
-            correct_answer: loadedQuestion.correct_answer.toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&'),
-            incorrect_answer1: loadedQuestion.incorrect_answers[0].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
-            incorrect_answer2: loadedQuestion.incorrect_answers[1].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
-            incorrect_answer3: loadedQuestion.incorrect_answers[2].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
-          };
+      }).then(number => {
+        this.setState({ numberOfQuestions: number });
 
-          const newIncorrectAnswers = [formattedQuestion.incorrect_answer1, formattedQuestion.incorrect_answer2, formattedQuestion.incorrect_answer3];
+        let questionLimit = this.state.numberOfQuestions ? (this.state.difficulty === 'easy') ? (this.state.numberOfQuestions.category_question_count.total_easy_question_count)
+          : ((this.state.difficulty === 'medium') ? (this.state.numberOfQuestions.category_question_count.total_medium_question_count)
+            : (this.state.numberOfQuestions.category_question_count.total_hard_question_count)) : 10;
 
-          // assign incorrect and correct answers
-          const answerChoices = [...newIncorrectAnswers];
-          formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
+        console.log(questionLimit);
 
-          answerChoices.splice(formattedQuestion.answer - 1, 0, formattedQuestion.correct_answer);
+        if (questionLimit >= 25) {
+          questionLimit = 25;
+        } else if (questionLimit >= 20) {
+          questionLimit = 20;
+        } else if (questionLimit >= 15) {
+          questionLimit = 15;
+        } else if (questionLimit >= 10) {
+          questionLimit = 10;
+        };
 
-          // add choice label for each choice
-          answerChoices.forEach((choice, index) => {
-            formattedQuestion["choice" + (index + 1)] = choice;
-          });
-
-          // put the questions into an array
-          let listOfQuestions = [];
-          listOfQuestions.push(...this.state.questions, formattedQuestion);
-
-          this.setState({
-            availableQuestions: listOfQuestions,
-            questions: listOfQuestions,
-            questionTotal: listOfQuestions.length,
-          }, () => {
-            // console.log(this.state);
-          });
-
-          QuestionActions.saveQuestionTotal(this.state.questionTotal);
-
+        this.setState({
+          questionLimit
         });
-        // this.getNextQuestion(this.state.questions);
-        this.start(this.state.availableQuestions);
-      }).catch((error) => {
-        console.error('failed to get questions', error);
+
+        QuestionActions.saveQuestionLimit(questionLimit);
+
+        const URL = `https://opentdb.com/api.php?amount=${this.state.questionLimit}&category=${this.state.categorySelected}&difficulty=${this.state.difficulty}&type=multiple`;
+        fetch(URL)
+          .then(response => {
+            return response.json();
+          })
+          .then(loadedQuestions => {
+            loadedQuestions.results.map((loadedQuestion) => {
+              // format the response
+              const formattedQuestion = {
+                question: loadedQuestion.question.toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&'),
+                correct_answer: loadedQuestion.correct_answer.toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&'),
+                incorrect_answer1: loadedQuestion.incorrect_answers[0].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
+                incorrect_answer2: loadedQuestion.incorrect_answers[1].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
+                incorrect_answer3: loadedQuestion.incorrect_answers[2].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
+              };
+    
+              const newIncorrectAnswers = [formattedQuestion.incorrect_answer1, formattedQuestion.incorrect_answer2, formattedQuestion.incorrect_answer3];
+    
+              // assign incorrect and correct answers
+              const answerChoices = [...newIncorrectAnswers];
+              formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
+    
+              answerChoices.splice(formattedQuestion.answer - 1, 0, formattedQuestion.correct_answer);
+    
+              // add choice label for each choice
+              answerChoices.forEach((choice, index) => {
+                formattedQuestion["choice" + (index + 1)] = choice;
+              });
+    
+              // put the questions into an array
+              let listOfQuestions = [];
+              listOfQuestions.push(...this.state.questions, formattedQuestion);
+    
+              this.setState({
+                availableQuestions: listOfQuestions,
+                questions: listOfQuestions,
+                // questionTotal: listOfQuestions.length,
+              }, () => {
+                // console.log(this.state);
+              });
+    
+              // QuestionActions.saveQuestionTotal(this.state.questionTotal);
+    
+            });
+            // this.getNextQuestion(this.state.questions);
+            this.start(this.state.availableQuestions);
+          }).catch((error) => {
+            console.error('failed to get questions', error);
+          });
+
       });
   }
 
@@ -131,17 +165,15 @@ class QuestionsPage extends Reflux.Component {
   }
 
   checkAnswer = (answer) => {
-    const { questions, currentQuestion, questionCounter, score } = this.state;
+    const { questionLimit, currentQuestion, questionCounter, score } = this.state;
     // have we run out of questions?
-    if (questionCounter >= questions.length) {
+    if (questionCounter >= questionLimit) {
       QuestionActions.saveScore(score);
       this.props.history.push('/leaderboards');
     } else {
       // remove the current question
       let newQuestions = this.removeQuestion();
       // check to see if correct answer was selected
-      // TODO check the question counter
-      // TODO when finished, go to the leaderboards screen
       if (answer === currentQuestion.answer) {
         this.setState({ score: this.state.score + 1 });
         this.animation('green');
@@ -183,7 +215,7 @@ class QuestionsPage extends Reflux.Component {
     return (
       <div className={correctAnimation === true ? style.containerCorrect : falseAnimation === true ? style.containerFalse : style.container} >
         <div className={style.topWrapper}>
-          <div className={style.progressBar}>Question {questionCounter} / {this.state.questionTotal}</div>
+          <div className={style.progressBar}>Question {questionCounter} / {this.state.questionLimit}</div>
           <div className={style.score}>Score: {score}</div>
         </div>
         <div className={style.questions}>

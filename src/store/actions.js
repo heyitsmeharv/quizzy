@@ -6,7 +6,16 @@ const QuestionActions = Reflux.createActions([
   'saveScore',
   'getScore',
   'saveQuestionTotal',
-  'getQuestionTotal'
+  'getQuestionTotal',
+  'saveCategory',
+  'getCategory',
+  'saveNumberOfQuestions',
+  'getNumberOfQuestions',
+  'saveDifficulty',
+  'getDifficulty',
+  'handleCategoryChange',
+  'handleDifficultyChange',
+  'saveQuestionLimit',
 ]);
 
 export default QuestionActions;
