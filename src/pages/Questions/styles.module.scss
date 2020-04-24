@@ -9,25 +9,15 @@
   .topWrapper {
     display: flex;
     align-items: center;
-    top: 0;
     justify-content: space-around;
+    margin-top: 10px;
 
     .progressBar {
-      position: absolute;
-      left: 0;
-      top: 0;
       font-size: 4vh;
-      // padding: 2vh 10vh;
-      padding: 20px;
     }
 
     .score {
-      position: absolute;
-      right: 0;
-      top: 0;
       font-size: 4vh;
-      // padding: 2vh 10vh;
-      padding: 20px;
     }
   }
 
@@ -69,6 +59,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        transform: none;
+        box-shadow: none;
+        color: black;
 
         &:hover {
           transform: translateY(-3px);
@@ -86,6 +79,9 @@
         justify-content: center;
         text-align: center;
         padding: 1px;
+        transform: none;
+        box-shadow: none;
+        color: black;
 
         &:hover {
           transform: translateY(-3px);
@@ -116,24 +112,15 @@
   .topWrapper {
     display: flex;
     align-items: center;
-    top: 0;
     justify-content: space-around;
-
+    margin-top: 10px;
+    
     .progressBar {
-      position: absolute;
-      left: 0;
-      top: 0;
       font-size: 4vh;
-      padding: 20px;
     }
 
     .score {
-      position: absolute;
-      right: 0;
-      top: 0;
       font-size: 4vh;
-      // padding: 2vh 10vh;
-      padding: 20px;
     }
   }
 
@@ -175,6 +162,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        transform: none;
+        box-shadow: none;
+        color: black;
 
         &:hover {
           transform: translateY(-3px);
@@ -192,6 +182,9 @@
         justify-content: center;
         text-align: center;
         padding: 1px;
+        transform: none;
+        box-shadow: none;
+        color: black;
 
         &:hover {
           transform: translateY(-3px);
@@ -223,25 +216,15 @@
   .topWrapper {
     display: flex;
     align-items: center;
-    top: 0;
     justify-content: space-around;
+    margin-top: 10px;
 
     .progressBar {
-      position: absolute;
-      left: 0;
-      top: 0;
       font-size: 4vh;
-      // padding: 2vh 10vh;
-      padding: 20px;
     }
 
     .score {
-      position: absolute;
-      right: 0;
-      top: 0;
       font-size: 4vh;
-      // padding: 2vh 10vh;
-      padding: 20px;
     }
   }
 
@@ -283,6 +266,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        transform: none;
+        box-shadow: none;
+        color: black;
 
         &:hover {
           transform: translateY(-3px);
@@ -300,6 +286,9 @@
         justify-content: center;
         text-align: center;
         padding: 1px;
+        transform: none;
+        box-shadow: none;
+        color: black;
 
         &:hover {
           transform: translateY(-3px);
