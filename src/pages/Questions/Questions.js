@@ -191,24 +191,27 @@ class QuestionsPage extends Reflux.Component {
 
   renderQuestion = (currentQuestion) => {
     if (currentQuestion) {
-      return (<>
-        <div className={style.choiceContainer} onClick={() => this.checkAnswer(1)}>
-          <p className={style.choicePrefix}>A</p>
-          <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice1 : ''}</label>
+      return (
+        <div className={style.choiceWrapper}>
+          <h2 className={style.questionTitle}>{currentQuestion ? currentQuestion.question : ''}</h2>
+          <div className={style.choiceContainer} onClick={() => this.checkAnswer(1)}>
+            <p className={style.choicePrefix}>A</p>
+            <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice1 : ''}</label>
+          </div>
+          <div className={style.choiceContainer} onClick={() => this.checkAnswer(2)}>
+            <p className={style.choicePrefix}>B</p>
+            <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice2 : ''}</label>
+          </div>
+          <div className={style.choiceContainer} onClick={() => this.checkAnswer(3)}>
+            <p className={style.choicePrefix}>C</p>
+            <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice3 : ''}</label>
+          </div>
+          <div className={style.choiceContainer} onClick={() => this.checkAnswer(4)}>
+            <p className={style.choicePrefix}>D</p>
+            <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice4 : ''}</label>
+          </div>
         </div>
-        <div className={style.choiceContainer} onClick={() => this.checkAnswer(2)}>
-          <p className={style.choicePrefix}>B</p>
-          <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice2 : ''}</label>
-        </div>
-        <div className={style.choiceContainer} onClick={() => this.checkAnswer(3)}>
-          <p className={style.choicePrefix}>C</p>
-          <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice3 : ''}</label>
-        </div>
-        <div className={style.choiceContainer} onClick={() => this.checkAnswer(4)}>
-          <p className={style.choicePrefix}>D</p>
-          <label className={style.choiceText}>{currentQuestion ? currentQuestion.choice4 : ''}</label>
-        </div>
-      </>)
+      )
     } else {
       return <div className={style.tempLoading}>Getting The Question...</div>
     }
@@ -223,7 +226,6 @@ class QuestionsPage extends Reflux.Component {
           <div className={style.score}>Score: {score}</div>
         </div>
         <div className={style.questions}>
-          <h2 className={style.questionTitle}>{currentQuestion ? currentQuestion.question : ''}</h2>
           {this.renderQuestion(currentQuestion)}
         </div>
       </div>
