@@ -11,6 +11,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+// icons
+import ArrowBack from '@material-ui/icons/ArrowBack';
+
 // styles
 import style from './styles.module.scss';
 
@@ -45,6 +48,12 @@ class SettingsPage extends Reflux.Component {
 
     return (
       <div className={style.container}>
+        <div className={style.backButtonWrapper} onClick={() => this.handleButtonClick()} >
+          {/* <Button disabled className={style.button} onClick={() => this.handleButtonClick()} variant="contained" color="primary">
+            Back
+          </Button> */}
+          <ArrowBack/>
+        </div>
         <span className={style.disabled}>Disabled for now...</span>
         <FormControl className={style.dropdown} variant="outlined">
           <InputLabel>Category</InputLabel>

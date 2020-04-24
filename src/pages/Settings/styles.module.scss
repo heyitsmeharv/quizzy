@@ -28,6 +28,16 @@
     }
   }
 
+  .backButtonWrapper {
+    top: 0;
+    left: 0;
+    position: absolute;
+    svg {
+      width: 1.5em;
+      height: 1.5em;
+    }
+  }
+
   .buttonWrapper {
     display: flex;
     align-items: center;
