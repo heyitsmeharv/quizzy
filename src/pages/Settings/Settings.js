@@ -45,6 +45,7 @@ class SettingsPage extends Reflux.Component {
 
     return (
       <div className={style.container}>
+        <span className={style.disabled}>Disabled for now...</span>
         <FormControl className={style.dropdown} variant="outlined">
           <InputLabel>Category</InputLabel>
           <Select
@@ -77,7 +78,7 @@ class SettingsPage extends Reflux.Component {
           </Select>
         </FormControl>
         <div className={style.buttonWrapper}>
-          <Button className={style.button} onClick={() => this.handleButtonClick()} variant="contained" color="primary">
+          <Button disabled className={style.button} onClick={() => this.handleButtonClick()} variant="contained" color="primary">
             Save
           </Button>
         </div>

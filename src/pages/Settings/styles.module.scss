@@ -9,7 +9,11 @@
   height: 100vh;
   margin: 0 auto;
   overflow: hidden;
-  // animation: pageExit 0.5s forwards;;
+  
+  .disabled {
+    animation-name: settings;
+    animation-duration: 2s;
+  }
 
   .dropdown {
     animation-name: settings;
