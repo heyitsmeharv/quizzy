@@ -16,14 +16,16 @@
     top: 0;
     right: 0;
     padding: 10px;
-    color: white;
     &:hover {
-      animation: cog 5s infinite;
+      animation: cog 1s infinite;
+    }
+    svg {
+      width: 1.5em;
+      height: 1.5em;
     }
   }
 
   .headerText {
-    font-family: 'Luckiest Guy';
     font-size: 150px;
     color: white;
     animation-name: Header;
@@ -72,7 +74,5 @@ to { transform: translateY(0)}
 }
 
 @keyframes cog {
-  100%{ 
-    transform: rotate(360deg)
-  }
+  100% { transform: rotate(360deg); }
 }

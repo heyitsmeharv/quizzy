@@ -48,6 +48,7 @@ class SettingsPage extends Reflux.Component {
         <FormControl className={style.dropdown} variant="outlined">
           <InputLabel>Category</InputLabel>
           <Select
+            disabled
             value={categorySelected}
             onChange={QuestionActions.handleCategoryChange}
             label="Category"
@@ -65,6 +66,7 @@ class SettingsPage extends Reflux.Component {
         <FormControl className={style.dropdown} variant="outlined">
           <InputLabel>Difficulty</InputLabel>
           <Select
+            disabled
             value={difficulty}
             onChange={QuestionActions.handleDifficultyChange}
             label="Difficulty"

@@ -42,27 +42,30 @@ class QuestionsPage extends Reflux.Component {
       }).then(number => {
         this.setState({ numberOfQuestions: number });
 
-        let questionLimit = this.state.numberOfQuestions ? (this.state.difficulty === 'easy') ? (this.state.numberOfQuestions.category_question_count.total_easy_question_count)
+        let questionLimit = (this.state.difficulty === 'easy') ? (this.state.numberOfQuestions.category_question_count.total_easy_question_count)
           : ((this.state.difficulty === 'medium') ? (this.state.numberOfQuestions.category_question_count.total_medium_question_count)
-            : (this.state.numberOfQuestions.category_question_count.total_hard_question_count)) : 10;
+            : (this.state.numberOfQuestions.category_question_count.total_hard_question_count));
 
         console.log(questionLimit);
 
+        // 25 questions maximum!
         if (questionLimit >= 25) {
           questionLimit = 25;
-        } else if (questionLimit >= 20) {
+        } else if (questionLimit <= 25 && questionLimit >= 20) {
           questionLimit = 20;
-        } else if (questionLimit >= 15) {
+        } else if (questionLimit <= 20 && questionLimit >= 15) {
           questionLimit = 15;
-        } else if (questionLimit >= 10) {
+        } else if (questionLimit <= 15 && questionLimit >= 10) {
           questionLimit = 10;
-        };
+        } else {
+          questionLimit = 5;
+        }
 
         this.setState({
           questionLimit
+        }, () => {
+          QuestionActions.saveQuestionLimit(questionLimit);
         });
-
-        QuestionActions.saveQuestionLimit(questionLimit);
 
         const URL = `https://opentdb.com/api.php?amount=${this.state.questionLimit}&category=${this.state.categorySelected}&difficulty=${this.state.difficulty}&type=multiple`;
         fetch(URL)
@@ -70,6 +73,7 @@ class QuestionsPage extends Reflux.Component {
             return response.json();
           })
           .then(loadedQuestions => {
+            console.log(loadedQuestions);
             loadedQuestions.results.map((loadedQuestion) => {
               // format the response
               const formattedQuestion = {
@@ -79,24 +83,24 @@ class QuestionsPage extends Reflux.Component {
                 incorrect_answer2: loadedQuestion.incorrect_answers[1].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
                 incorrect_answer3: loadedQuestion.incorrect_answers[2].toString().replace(/&quot;/g, '"').replace(/&#039;/g, `'`).replace(/&amp;/g, '&').replace(/&Ouml;/g, 'ö').replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&auml;/g, 'ä').replace(/&ouml;/g, 'ö'),
               };
-    
+
               const newIncorrectAnswers = [formattedQuestion.incorrect_answer1, formattedQuestion.incorrect_answer2, formattedQuestion.incorrect_answer3];
-    
+
               // assign incorrect and correct answers
               const answerChoices = [...newIncorrectAnswers];
               formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
-    
+
               answerChoices.splice(formattedQuestion.answer - 1, 0, formattedQuestion.correct_answer);
-    
+
               // add choice label for each choice
               answerChoices.forEach((choice, index) => {
                 formattedQuestion["choice" + (index + 1)] = choice;
               });
-    
+
               // put the questions into an array
               let listOfQuestions = [];
               listOfQuestions.push(...this.state.questions, formattedQuestion);
-    
+
               this.setState({
                 availableQuestions: listOfQuestions,
                 questions: listOfQuestions,
@@ -104,9 +108,9 @@ class QuestionsPage extends Reflux.Component {
               }, () => {
                 // console.log(this.state);
               });
-    
+
               // QuestionActions.saveQuestionTotal(this.state.questionTotal);
-    
+
             });
             // this.getNextQuestion(this.state.questions);
             this.start(this.state.availableQuestions);

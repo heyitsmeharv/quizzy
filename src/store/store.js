@@ -12,7 +12,7 @@ export default class QuestionStore extends Reflux.Store {
       categorySelected: 9,
       numberOfQuestions: null,
       difficulty: 'medium',
-      questionLimit: 10,
+      questionLimit: null,
     };
     this.listenToMany(QuestionActions);
   }
