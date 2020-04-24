@@ -41,16 +41,20 @@
       font-size: 4vh;
       padding-bottom: 25px;
       max-width: 100vw;
+      margin: 0 auto;
+      text-align: center;
     }
 
     .choiceWrapper {
       margin: auto 0;
+      text-align: center;
     }
 
     .choiceContainer {
       font-size: 4vh;
       display: flex;
       align-items: center;
+      text-align: center;
       margin: 10px 0;
       max-width: 95vw;
 
@@ -115,11 +119,6 @@
   margin: 0 auto;
   overflow: hidden;
 
-  .loader {
-    display: block;
-    margin: 0 auto;
-  }
-
   .topWrapper {
     display: flex;
     align-items: center;
@@ -149,16 +148,20 @@
       font-size: 4vh;
       padding-bottom: 25px;
       max-width: 100vw;
+      margin: 0 auto;
+      text-align: center;
     }
 
     .choiceWrapper {
       margin: auto 0;
+      text-align: center;
     }
 
     .choiceContainer {
       font-size: 4vh;
       display: flex;
       align-items: center;
+      text-align: center;
       margin: 10px 0;
       max-width: 95vw;
 
@@ -224,11 +227,6 @@
   margin: 0 auto;
   overflow: hidden;
 
-  .loader {
-    display: block;
-    margin: 0 auto;
-  }
-
   .topWrapper {
     display: flex;
     align-items: center;
@@ -258,16 +256,20 @@
       font-size: 4vh;
       padding-bottom: 25px;
       max-width: 100vw;
+      margin: 0 auto;
+      text-align: center;
     }
 
     .choiceWrapper {
       margin: auto 0;
+      text-align: center;
     }
 
     .choiceContainer {
       font-size: 4vh;
       display: flex;
       align-items: center;
+      text-align: center;
       margin: 10px 0;
       max-width: 95vw;
 
@@ -322,24 +324,34 @@
       font-size: 38px;
     }
   }
+
 }
 
 @media screen and (max-width: 480px) {
   .container {
     .questions {
       max-width: 100vw;
+      .questionTitle {
+        max-width: 90vw
+      }
     }
   }
 
   .containerCorrect {
     .questions {
       max-width: 100vw;
+      .questionTitle {
+        max-width: 90vw
+      }
     }
   }
 
   .containerFalse {
     .questions {
       max-width: 100vw;
+      .questionTitle {
+        max-width: 90vw
+      }
     }
   }
 }
