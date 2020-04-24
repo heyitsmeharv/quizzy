@@ -4,6 +4,9 @@ import Reflux from 'reflux';
 import QuestionStore from '../../store/store';
 import QuestionActions from '../../store/actions';
 
+// components
+import ProgressBar from '../../components/ProgressBar/ProgressBar';
+
 // loaders
 import PropagateLoader from "react-spinners/PropagateLoader";
 
@@ -22,13 +25,14 @@ class QuestionsPage extends Reflux.Component {
       'categorySelected',
       'numberOfQuestions',
       'difficulty',
+      'questionCounter',
+      'progress',
     ];
     this.state = {
       questions: [],
       availableQuestions: [],
       currentQuestion: {},
       questionIndex: null,
-      questionCounter: 0,
       acceptingAnswers: true,
       isLoading: true,
       falseAnimation: false,
@@ -131,14 +135,16 @@ class QuestionsPage extends Reflux.Component {
     this.setState({
       score: 0,
       questionCounter: 0,
+      progress: 0,
     });
     this.getNextQuestion(availableQuestions);
   }
 
   getNextQuestion = (availableQuestions) => {
-    let { questionCounter } = this.state;
+    let { questionCounter, progress } = this.state;
     this.setState({
       questionCounter: questionCounter + 1,
+      progress: progress + 4, // increase based on total questions 100 / 25 = 4
     });
 
     // find a random question
@@ -228,11 +234,14 @@ class QuestionsPage extends Reflux.Component {
   }
 
   render() {
-    const { currentQuestion, score, questionCounter, correctAnimation, falseAnimation } = this.state;
+    const { currentQuestion, score, questionCounter, correctAnimation, falseAnimation, progress } = this.state;
     return (
       <div className={correctAnimation === true ? style.containerCorrect : falseAnimation === true ? style.containerFalse : style.container} >
         <div className={style.topWrapper}>
-          <div className={style.progressBar}>Question {questionCounter} / {this.state.questionLimit}</div>
+          <div className={style.progress}>
+            Question {questionCounter} / {this.state.questionLimit}
+            <ProgressBar percentage={progress} />
+          </div>
           <div className={style.score}>Score: {score}</div>
         </div>
         <div className={style.questions}>

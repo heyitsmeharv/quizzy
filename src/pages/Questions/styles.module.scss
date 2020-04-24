@@ -14,12 +14,15 @@
 
   .topWrapper {
     display: flex;
-    align-items: center;
     justify-content: space-around;
     margin-top: 10px;
+    margin-bottom: 10px;
 
-    .progressBar {
+    .progress {
       font-size: 4vh;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
     .score {
@@ -30,7 +33,7 @@
   .questions {
     width: 100vw;
     max-width: 45vw;
-    height: 100vh;
+    min-height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -121,12 +124,15 @@
 
   .topWrapper {
     display: flex;
-    align-items: center;
     justify-content: space-around;
     margin-top: 10px;
+    margin-bottom: 10px;
 
-    .progressBar {
+    .progress {
       font-size: 4vh;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
     .score {
@@ -137,7 +143,7 @@
   .questions {
     width: 100vw;
     max-width: 45vw;
-    height: 100vh;
+    min-height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -229,12 +235,15 @@
 
   .topWrapper {
     display: flex;
-    align-items: center;
     justify-content: space-around;
     margin-top: 10px;
+    margin-bottom: 10px;
 
-    .progressBar {
+    .progress {
       font-size: 4vh;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
     .score {
@@ -245,7 +254,7 @@
   .questions {
     width: 100vw;
     max-width: 45vw;
-    height: 100vh;
+    min-height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
