@@ -1,12 +1,11 @@
 .progressBar {
   position: relative;
   height: 20px;
-  border: 2px solid white;
   width: 100%;
 }
 
 .filler {
-  background: #008000;
+  background: deepskyblue;
   height: 100%;
   transition: width .2s ease-in;
 }
