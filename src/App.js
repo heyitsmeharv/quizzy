@@ -5,7 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 // pages
 import StartPage from './pages/Start/Start';
 import QuestionsPage from './pages/Questions/Questions';
-import LeaderboardsPage from './pages/Leaderboards/Leaderboards';
+import ScorePage from './pages/Score/Score';
 import SettingsPage from './pages/Settings/Settings';
 
 // styles
@@ -43,7 +43,7 @@ const App = () => {
                     <Route exact path="/" render={() => <Redirect to="/quizzy" />} />
                     <Route exact path="/quizzy" component={StartPage} />
                     <Route exact path="/questions" component={QuestionsPage} />
-                    <Route exact path="/leaderboards" component={LeaderboardsPage} />
+                    <Route exact path="/score" component={ScorePage} />
                     <Route exact path="/settings" component={SettingsPage} />
                   </Switch>
                 </CSSTransition>

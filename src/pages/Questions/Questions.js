@@ -173,7 +173,7 @@ class QuestionsPage extends Reflux.Component {
     // have we run out of questions?
     if (questionCounter >= questionLimit) {
       QuestionActions.saveScore(score);
-      this.props.history.push('/leaderboards');
+      this.props.history.push('/score');
     } else {
       // remove the current question
       let newQuestions = this.removeQuestion();

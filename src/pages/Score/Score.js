@@ -5,7 +5,7 @@ import QuestionStore from '../../store/store';
 
 import style from './styles.module.scss';
 
-class LeaderBoardPage extends Reflux.Component {
+class ScorePage extends Reflux.Component {
   constructor(props) {
     super(props);
     this.stores = [QuestionStore];
@@ -36,4 +36,4 @@ class LeaderBoardPage extends Reflux.Component {
   }
 }
 
-export default LeaderBoardPage;
+export default ScorePage;
