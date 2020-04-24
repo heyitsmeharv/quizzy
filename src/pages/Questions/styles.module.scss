@@ -6,6 +6,12 @@
   margin: 0 auto;
   overflow: hidden;
 
+  .loaderContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .topWrapper {
     display: flex;
     align-items: center;
@@ -109,12 +115,17 @@
   margin: 0 auto;
   overflow: hidden;
 
+  .loader {
+    display: block;
+    margin: 0 auto;
+  }
+
   .topWrapper {
     display: flex;
     align-items: center;
     justify-content: space-around;
     margin-top: 10px;
-    
+
     .progressBar {
       font-size: 4vh;
     }
@@ -212,6 +223,11 @@
   height: 100vh;
   margin: 0 auto;
   overflow: hidden;
+
+  .loader {
+    display: block;
+    margin: 0 auto;
+  }
 
   .topWrapper {
     display: flex;

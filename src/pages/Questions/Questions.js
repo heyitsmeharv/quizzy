@@ -4,6 +4,9 @@ import Reflux from 'reflux';
 import QuestionStore from '../../store/store';
 import QuestionActions from '../../store/actions';
 
+// loaders
+import PropagateLoader from "react-spinners/PropagateLoader";
+
 // styles
 import style from './styles.module.scss';
 
@@ -113,6 +116,9 @@ class QuestionsPage extends Reflux.Component {
 
             });
             // this.getNextQuestion(this.state.questions);
+            setTimeout(() => {
+              this.setState({ isLoading: false })
+            }, 1000);
             this.start(this.state.availableQuestions);
           }).catch((error) => {
             console.error('failed to get questions', error);
@@ -190,7 +196,7 @@ class QuestionsPage extends Reflux.Component {
   }
 
   renderQuestion = (currentQuestion) => {
-    if (currentQuestion) {
+    if (currentQuestion && this.state.isLoading === false) {
       return (
         <div className={style.choiceWrapper}>
           <h2 className={style.questionTitle}>{currentQuestion ? currentQuestion.question : ''}</h2>
@@ -213,7 +219,11 @@ class QuestionsPage extends Reflux.Component {
         </div>
       )
     } else {
-      return <div className={style.tempLoading}>Getting The Question...</div>
+      // return <div className={style.tempLoading}>Getting The Question...</div>
+      return (
+        <div className={style.loaderContainer}>
+          <div><PropagateLoader /></div>
+        </div>)
     }
   }
 
