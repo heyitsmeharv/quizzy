@@ -19,7 +19,7 @@ class StartPage extends Reflux.Component {
     super(props);
     this.stores = [QuestionStore];
     this.storeKeys = [
-      'username',
+      'user'
     ];
     this.state = {}
   }
@@ -32,12 +32,12 @@ class StartPage extends Reflux.Component {
     } else {
       this.props.history.push('/settings');
     }
-    QuestionActions.saveUsername(this.state.username);
+    QuestionActions.saveUsername(this.state.user);
   };
 
-  handleOnChangeUsername = username => event => {
+  handleOnChangeUsername = user => event => {
     this.setState({
-      [username]: event.target.value,
+      [user]: event.target.value,
     });
   };
 
@@ -54,15 +54,15 @@ class StartPage extends Reflux.Component {
         </div>
         <div className={style.textFieldWrapper}>
           <p className={style.text}>Please Enter Your Player Name:</p>
-          <TextField id="standard-uncontrolled" onChange={this.handleOnChangeUsername('username')} label="Player Name" variant="outlined" />
+          <TextField id="standard-uncontrolled" onChange={this.handleOnChangeUsername('user')} label="Player Name" variant="outlined" />
         </div>
         <div className={style.buttonWrapper}>
           <Button className={style.button} onClick={() => this.handleButtonClick('Go')} variant="contained" color="primary">
             Go!
           </Button>
-          {/* <Button className={style.button} onClick={() => this.handleButtonClick('leaderboards')} variant="contained" color="primary">
+          <Button className={style.button} onClick={() => this.handleButtonClick('leaderboards')} variant="contained" color="primary">
             High Scores!
-        </Button> */}
+        </Button>
         </div>
       </div>
     );
