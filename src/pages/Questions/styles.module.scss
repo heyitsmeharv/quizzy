@@ -67,7 +67,7 @@
         background: white;
         border: 3px solid black;
         border-radius: 50%;
-        width: 50px;
+        width: 7%;
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -177,7 +177,7 @@
         background: white;
         border: 3px solid black;
         border-radius: 50%;
-        width: 50px;
+        width: 7%;
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -288,7 +288,7 @@
         background: white;
         border: 3px solid black;
         border-radius: 50%;
-        width: 50px;
+        width: 7%;
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -343,6 +343,12 @@
       .questionTitle {
         max-width: 90vw
       }
+    .choicePrefix {
+      flex: 1;
+    }
+    .choiceText {
+      flex: 8;
+    }
     }
   }
 
@@ -352,6 +358,12 @@
       .questionTitle {
         max-width: 90vw
       }
+      .choicePrefix {
+        flex: 1;
+      }
+      .choiceText {
+        flex: 8;
+      }
     }
   }
 
@@ -360,6 +372,12 @@
       max-width: 100vw;
       .questionTitle {
         max-width: 90vw
+      }
+      .choicePrefix {
+        flex: 1;
+      }
+      .choiceText {
+        flex: 8;
       }
     }
   }
