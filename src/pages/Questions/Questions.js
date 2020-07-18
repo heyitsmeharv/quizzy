@@ -115,7 +115,8 @@ class QuestionsPage extends Reflux.Component {
               }, () => {
                 // console.log(this.state);
               });
-
+              
+              return listOfQuestions; 
               // QuestionActions.saveQuestionTotal(this.state.questionTotal);
 
             });
