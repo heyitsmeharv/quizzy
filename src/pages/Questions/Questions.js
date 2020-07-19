@@ -182,7 +182,7 @@ class QuestionsPage extends Reflux.Component {
     // have we run out of questions?
     if (questionCounter >= questionLimit) {
       QuestionActions.saveScore(user.score);
-      fetch('http://localhost:5000/users/add', {
+      fetch('https://backend-quizzy.herokuapp.com/users/add', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

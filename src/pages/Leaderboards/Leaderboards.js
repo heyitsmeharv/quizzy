@@ -17,7 +17,7 @@ class LeaderBoardPage extends Reflux.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:5000/users/')
+    fetch('https://backend-quizzy.herokuapp.com/users/')
     .then(response => {
       return response.json();
     }).then(leaderboard => {
@@ -46,7 +46,6 @@ class LeaderBoardPage extends Reflux.Component {
                     <TableCell>Player Name</TableCell>
                     <TableCell numeric>Score</TableCell>
                     <TableCell numeric>Time</TableCell>
-                    <TableCell numeric>Total</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -54,9 +53,8 @@ class LeaderBoardPage extends Reflux.Component {
                     return (
                       <TableRow className={styles.tableRow} key={attempt.id}>
                         <TableCell >{attempt.username}</TableCell>
-                        <TableCell numeric>{attempt.score}</TableCell>
+                        <TableCell numeric>{attempt.score}/{attempt.total}</TableCell>
                         <TableCell numeric>{attempt.time}</TableCell>
-                        <TableCell numeric>{attempt.total}</TableCell>
                       </TableRow>
                     );
                   })}
