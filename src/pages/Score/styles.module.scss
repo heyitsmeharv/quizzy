@@ -12,7 +12,7 @@
   overflow: hidden;
 
     .scoreTitle {
-      font-size: 10vh;
+      font-size: 4rem;
     }
 
     .score {
@@ -28,7 +28,7 @@
       padding: 20px;
       
       .scoreText {
-        font-size: 12vh;
+        font-size: 4rem;
         text-align: center;
       }
     }
@@ -36,7 +36,6 @@
     .newGameWrapper {
       animation-name: left;
       animation-duration: 2s;
-      margin: 20px;
       justify-content: center;
       display: flex;
       :hover {
@@ -46,9 +45,10 @@
         display: flex;
         border: black solid 2px;
         background: white;
-        padding: 1vh;
-        font-size: 4vh;
+        padding: 10px;
+        font-size: 20px;
         margin: 1rem;
+        align-items: center;
       }
     }  
 }
