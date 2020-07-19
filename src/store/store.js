@@ -5,9 +5,12 @@ export default class QuestionStore extends Reflux.Store {
   constructor() {
     super();
     this.state = {
-      username: '',
-      score: 0,
-      questionTotal: 0,
+      user: {
+        user: '',
+        score: 0,
+        time: '',
+        total: 0,
+      },
       category: [],
       categorySelected: 9,
       numberOfQuestions: null,
@@ -20,29 +23,30 @@ export default class QuestionStore extends Reflux.Store {
   }
 
   saveUsername = (username) => {
+    let newUser = this.state.user;
+    newUser.user = username;
     this.setState({
-      username,
+      user: newUser,
     });
-  }
-
-  getUsername = () => {
-    return this.state.username;
   }
 
   saveScore = (score) => {
+    let newUser = this.state.user;
+    newUser.score = score;
     this.setState({
-      score,
+      user: newUser,
     });
-  }
-
-  getScore = () => {
-    return this.state.score;
   }
 
   saveQuestionLimit = (questionLimit) => {
     this.setState({
       questionLimit,
-    })
+    });
+    let newUser = this.state.user;
+    newUser.total = questionLimit;
+    this.setState({
+      user: newUser,
+    });
   }
 
   saveCategory = (category) => {
@@ -51,28 +55,16 @@ export default class QuestionStore extends Reflux.Store {
     });
   }
 
-  getCategory = () => {
-    return this.state.categorySelected;
-  }
-
   saveNumberOfQuestions = (number) => {
     this.setState({
       numberOfQuestions: number,
     });
   }
 
-  getNumberOfQuestions = () => {
-    return this.state.numberOfQuestions;
-  }
-
   saveDifficulty = (difficulty) => {
     this.setState({
       difficulty,
     });
-  }
-
-  getDifficulty = () => {
-    return this.state.difficulty;
   }
 
   handleCategoryChange = (event) => {
@@ -82,7 +74,6 @@ export default class QuestionStore extends Reflux.Store {
 
     fetch(`https://opentdb.com/api_count.php?category=${this.state.categorySelected}`)
       .then(response => {
-        console.log(response);
         return response.json();
       }).then(number => {
         this.setState({ numberOfQuestions: number });

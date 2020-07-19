@@ -19,9 +19,8 @@ class QuestionsPage extends Reflux.Component {
     super(props);
     this.stores = [QuestionStore];
     this.storeKeys = [
+      'user',
       'username',
-      'score',
-      'questionTotal',
       'categorySelected',
       'numberOfQuestions',
       'difficulty',
@@ -44,7 +43,6 @@ class QuestionsPage extends Reflux.Component {
   componentDidMount() {
     fetch(`https://opentdb.com/api_count.php?category=${this.state.categorySelected}`)
       .then(response => {
-        console.log(response);
         return response.json();
       }).then(number => {
         this.setState({ numberOfQuestions: number });
@@ -52,8 +50,6 @@ class QuestionsPage extends Reflux.Component {
         let questionLimit = (this.state.difficulty === 'easy') ? (this.state.numberOfQuestions.category_question_count.total_easy_question_count)
           : ((this.state.difficulty === 'medium') ? (this.state.numberOfQuestions.category_question_count.total_medium_question_count)
             : (this.state.numberOfQuestions.category_question_count.total_hard_question_count));
-
-        console.log(questionLimit);
 
         // 25 questions maximum!
         if (questionLimit >= 25) {
@@ -80,7 +76,6 @@ class QuestionsPage extends Reflux.Component {
             return response.json();
           })
           .then(loadedQuestions => {
-            console.log(loadedQuestions);
             loadedQuestions.results.map((loadedQuestion) => {
               // format the response
               const formattedQuestion = {
@@ -133,8 +128,10 @@ class QuestionsPage extends Reflux.Component {
   }
 
   start = (availableQuestions) => {
+    let newUser = this.state.user;
+    newUser.score = 0;
     this.setState({
-      score: 0,
+      user: newUser,
       questionCounter: 0,
       progress: 0,
     });
@@ -182,17 +179,33 @@ class QuestionsPage extends Reflux.Component {
   }
 
   checkAnswer = (answer) => {
-    const { questionLimit, currentQuestion, questionCounter, score } = this.state;
+    const { questionLimit, currentQuestion, questionCounter, user } = this.state;
     // have we run out of questions?
     if (questionCounter >= questionLimit) {
-      QuestionActions.saveScore(score);
-      this.props.history.push('/score');
+      QuestionActions.saveScore(user.score);
+      fetch('https://backend-quizzy.herokuapp.com/users/add', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(user)
+      })
+      .catch(error => {
+        console.log(`Unable to submit score: ${error}`)
+      })
+      // this.props.history.push('/score');
     } else {
       // remove the current question
       let newQuestions = this.removeQuestion();
       // check to see if correct answer was selected
       if (answer === currentQuestion.answer) {
-        this.setState({ score: this.state.score + 1 });
+        // this.setState({ score: this.state.score + 1 });
+        let newUser = this.state.user;
+        newUser.score = user.score + 1;
+        this.setState({
+          user: newUser,
+        });
         this.animation('green');
         this.getNextQuestion(newQuestions);
       } else {
@@ -235,7 +248,7 @@ class QuestionsPage extends Reflux.Component {
   }
 
   render() {
-    const { currentQuestion, score, questionCounter, correctAnimation, falseAnimation, progress } = this.state;
+    const { currentQuestion, questionCounter, correctAnimation, falseAnimation, progress, user } = this.state;
     return (
       <div className={correctAnimation === true ? style.containerCorrect : falseAnimation === true ? style.containerFalse : style.container} >
         <div className={style.topWrapper}>
@@ -243,7 +256,7 @@ class QuestionsPage extends Reflux.Component {
             Question {questionCounter} / {this.state.questionLimit}
             <ProgressBar percentage={progress} />
           </div>
-          <div className={style.score}>Score: {score}</div>
+          <div className={style.score}>Score: {user.score}</div>
         </div>
         <div className={style.questions}>
           {this.renderQuestion(currentQuestion)}
