@@ -21,6 +21,7 @@ class LeaderBoardPage extends Reflux.Component {
     .then(response => {
       return response.json();
     }).then(leaderboard => {
+      leaderboard.sort((a, b) => b.score - a.score);
       this.setState({ leaderboard })
     })
     .catch(error => {
@@ -43,18 +44,16 @@ class LeaderBoardPage extends Reflux.Component {
               <Table>
                 <TableHead className={styles.tableHead}>
                   <TableRow className={styles.tableRow}>
-                    <TableCell>Player Name</TableCell>
-                    <TableCell numeric>Score</TableCell>
-                    <TableCell numeric>Time</TableCell>
+                    <TableCell align="center">Player Name</TableCell>
+                    <TableCell align="left">Score</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {leaderboard.map(attempt => {
+                  {leaderboard.map((attempt, key) => {
                     return (
-                      <TableRow className={styles.tableRow} key={attempt.id}>
-                        <TableCell >{attempt.username}</TableCell>
-                        <TableCell numeric>{attempt.score}/{attempt.total}</TableCell>
-                        <TableCell numeric>{attempt.time}</TableCell>
+                      <TableRow className={styles.tableRow} key={key}>
+                        <TableCell align="center">{attempt.username}</TableCell>
+                        <TableCell align="left">{attempt.score}/{attempt.total}</TableCell>
                       </TableRow>
                     );
                   })}
