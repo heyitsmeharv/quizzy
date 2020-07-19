@@ -8,6 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import styles from './styles.module.scss';
 
+// icons
+import ArrowBack from '@material-ui/icons/ArrowBack';
+
 class LeaderBoardPage extends Reflux.Component {
   constructor(props) {
     super(props);
@@ -29,6 +32,10 @@ class LeaderBoardPage extends Reflux.Component {
     })
   }
 
+  handleButtonClick = () => {
+    this.props.history.push('/quizzy');
+  };
+
 
   // -------------------------------------------------------------------------------
   render() {
@@ -38,6 +45,9 @@ class LeaderBoardPage extends Reflux.Component {
 
     return (
       <div className={styles.container}>
+        <div className={styles.backButtonWrapper} onClick={() => this.handleButtonClick()} >
+          <ArrowBack/>
+        </div>        
         <div className={styles.leaderboardtable}>
           {leaderboard && leaderboard.length > 0 ?
             <Paper>
@@ -60,7 +70,13 @@ class LeaderBoardPage extends Reflux.Component {
                 </TableBody>
               </Table>
             </Paper>
-            : <div className={styles.failure}>Failed to get Leaderboards</div>
+            : <Paper>
+            <Table>
+              <TableBody>
+                <TableCell className={styles.failure}>Failed to get Leaderboards</TableCell>
+              </TableBody>
+            </Table>
+          </Paper>
           }
         </div>
       </div>

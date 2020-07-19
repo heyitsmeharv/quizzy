@@ -10,9 +10,8 @@ class ScorePage extends Reflux.Component {
     super(props);
     this.stores = [QuestionStore];
     this.storeKeys = [
-      'username',
-      'score',
-      'questionLimit'
+      'questionLimit',
+      'user',
     ];
     this.state = {};
   }
@@ -24,11 +23,12 @@ class ScorePage extends Reflux.Component {
           <did className={style.scoreTitle}>Your Score</did>
           <div className={style.score}>
             <div className={style.scoreText}>
-              {this.state.score}/{this.state.questionLimit}
+              {this.state.user.score}/{this.state.questionLimit}
             </div>
           </div>
           <div className={style.newGameWrapper}>
             <div className={style.newGameText} onClick={() => { this.props.history.push('/questions') }}>Try Again</div>
+            <div className={style.newGameText} onClick={() => { this.props.history.push('/leaderboards') }}>Leaderboards</div>
           </div>
         </div>
       </div>

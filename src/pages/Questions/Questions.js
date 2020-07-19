@@ -194,7 +194,7 @@ class QuestionsPage extends Reflux.Component {
       .catch(error => {
         console.log(`Unable to submit score: ${error}`)
       })
-      // this.props.history.push('/score');
+      this.props.history.push('/score');
     } else {
       // remove the current question
       let newQuestions = this.removeQuestion();

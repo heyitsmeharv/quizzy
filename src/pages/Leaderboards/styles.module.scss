@@ -8,6 +8,16 @@
     height: 100vh;
     margin: 0 auto;
     overflow-y: auto;
+
+    .backButtonWrapper {
+      top: 0;
+      left: 0;
+      position: absolute;
+      svg {
+        width: 1.5em;
+        height: 1.5em;
+      }
+    }
   
     .question {
       font-size: 24px;
@@ -22,7 +32,7 @@
     }
     
     .failure {
-      font-size: 5rem;
+      font-size: 2rem;
       display: flex;
       justify-content: center;
     }
