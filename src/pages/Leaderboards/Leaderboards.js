@@ -11,11 +11,15 @@ import styles from './styles.module.scss';
 // icons
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
+// loaders
+import PropagateLoader from "react-spinners/PropagateLoader";
+
 class LeaderBoardPage extends Reflux.Component {
   constructor(props) {
     super(props);
     this.state = {
-      leaderboard: []
+      leaderboard: [],
+      isLoading: true,
     };
   }
 
@@ -25,7 +29,10 @@ class LeaderBoardPage extends Reflux.Component {
       return response.json();
     }).then(leaderboard => {
       leaderboard.sort((a, b) => b.score - a.score);
-      this.setState({ leaderboard })
+      this.setState({ 
+        leaderboard,
+        isLoading: false, 
+      });
     })
     .catch(error => {
       console.log(`Unable to get leaderboards: ${error}`)
@@ -41,15 +48,17 @@ class LeaderBoardPage extends Reflux.Component {
   render() {
     const {
       leaderboard,
+      isLoading,
     } = this.state;
 
     return (
       <div className={styles.container}>
         <div className={styles.backButtonWrapper} onClick={() => this.handleButtonClick()} >
           <ArrowBack/>
-        </div>        
+        </div>
+        {!isLoading ?        
         <div className={styles.leaderboardtable}>
-          {leaderboard && leaderboard.length > 0 ?
+          {leaderboard && leaderboard.length > 0 &&
             <Paper>
               <Table>
                 <TableHead className={styles.tableHead}>
@@ -70,15 +79,11 @@ class LeaderBoardPage extends Reflux.Component {
                 </TableBody>
               </Table>
             </Paper>
-            : <Paper>
-            <Table>
-              <TableBody>
-                <TableCell className={styles.failure}>Failed to get Leaderboards</TableCell>
-              </TableBody>
-            </Table>
-          </Paper>
           }
         </div>
+          : <div className={styles.loaderContainer}>
+          <div><PropagateLoader /></div>
+        </div>}
       </div>
     );
   }
