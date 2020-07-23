@@ -26,7 +26,9 @@ class StartPage extends Reflux.Component {
 
   handleButtonClick = (type) => {
     if (type === 'Go') {
+      if (this.state.user !== '') {
       this.props.history.push('/questions');
+      }
     } else if (type === 'leaderboards') {
       this.props.history.push('/leaderboards');
     } else {
@@ -57,7 +59,7 @@ class StartPage extends Reflux.Component {
           <TextField id="standard-uncontrolled" onChange={this.handleOnChangeUsername('user')} label="Player Name" variant="outlined" />
         </div>
         <div className={style.buttonWrapper}>
-          <Button className={style.button} onClick={() => this.handleButtonClick('Go')} variant="contained" color="primary">
+          <Button className={style.button} disabled={this.state.user.user === '' ? true : false} onClick={() => this.handleButtonClick('Go')} variant="contained" color="primary">
             Go!
           </Button>
           <Button className={style.button} onClick={() => this.handleButtonClick('leaderboards')} variant="contained" color="primary">
